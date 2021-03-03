@@ -33,43 +33,33 @@
         <input type="submit" value="add">        
       </form>
     </div>
+    <NuxtLink to="/stylists">stylists</NuxtLink>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, onMounted, useContext} from "@nuxtjs/composition-api"
-
-
-interface Customer {
-  id?: number,
-  name: string,
-  tel: string,
-  mail: string
-  created_at?: Date,
-  updated_at?: Date
-}
+import {defineComponent, ref, useAsync, useContext} from "@nuxtjs/composition-api"
+import { Customer } from "interface"
 
 export default defineComponent({
   setup(){
     const { $axios } = useContext()
-    let customers = ref<Customer[]> ([])
 
-    onMounted(()=>{
-      $axios.$get('http://localhost:3000/api/v1/customers')
-      .then(response => customers.value = response)
-    })
+    let customers = useAsync(()=> $axios.get('/api/v1/customers')
+                                  .then((response) => { return response.data })
+    )
 
     let newCustomer = ref<Customer>({ name:'', tel:'', mail:'' })
     const inputForm = ref<HTMLInputElement>()
     const addCustomer = ref(()=>{
-      $axios.post('http://localhost:3000/api/v1/customers', {customer: newCustomer.value})
+      $axios.post('/api/v1/customers', {customer: newCustomer.value})
       .then(response => customers.value.push(response.data))
       .then(() => newCustomer.value = { name: '', tel: '', mail: '' } )
       .then(() => inputForm.value?.focus())
     })
 
     const deleteCustomer = ref((id:number) => {
-      $axios.delete(`http://localhost:3000/api/v1/customers/${id}`)
+      $axios.delete(`/api/v1/customers/${id}`)
       .then(()=>{
         customers.value = customers.value.filter((customer) => { return customer.id != id })
       })

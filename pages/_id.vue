@@ -1,6 +1,6 @@
 <template>
   <div>
-    <form @submit.prevent="updateCustomer">
+    <form @submit.prevent="updateCustomer" v-if="customer">
       <label>名前：<input type="text" v-model="customer.name"></label>
       <label>電話番号：<input type="tel" v-model="customer.tel"></label>
       <label>メールアドレス：<input type="email" v-model="customer.mail"></label>
@@ -11,16 +11,8 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, onMounted, ref, useContext} from '@nuxtjs/composition-api'
-
-interface Customer {
-  id?: number,
-  name: string,
-  tel: string,
-  mail: string
-  created_at?: Date,
-  updated_at?: Date
-}
+import {defineComponent, useAsync, ref, useContext} from '@nuxtjs/composition-api'
+import {Customer} from 'interface'
 
 export default defineComponent({
   validate({ params }) {
@@ -28,23 +20,19 @@ export default defineComponent({
   },
   setup(){
     const {$axios, params, redirect} = useContext()
-    let customer = ref<Customer>(
-      { id: 0, name:'', tel:'', mail:'' }
+
+    const customer:Customer = useAsync<Customer>(() => $axios.get(`/api/v1/customers/${params.value.id}`)
+                              .then(response => {return response.data})
     )
 
-    onMounted(()=>{
-      $axios.$get(`http://localhost:3000/api/v1/customers/${params.value.id}`)
-      .then(response => customer.value = response)
-    })
-
     const updateCustomer = (()=>{
-      $axios.patch(`http://localhost:3000/api/v1/customers/${params.value.id}`,
+      $axios.patch(`/api/v1/customers/${params.value.id}`,
       {customer: {  name: customer.value.name, 
                     tel: customer.value.tel, 
                     mail: customer.value.mail  }})
       .then(()=> {return redirect('/')})
     })
-    return { onMounted, customer, updateCustomer }
+    return { customer, updateCustomer }
   }
 })
 </script>
