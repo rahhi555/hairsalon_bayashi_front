@@ -33,22 +33,21 @@
         <input type="submit" value="add">        
       </form>
     </div>
+    <NuxtLink to="/stylists">stylists</NuxtLink>
   </div>
 </template>
 
 <script lang="ts">
-import {defineComponent, ref, onMounted, useContext} from "@nuxtjs/composition-api"
+import {defineComponent, ref, useAsync, useContext} from "@nuxtjs/composition-api"
 import { Customer } from "interface"
 
 export default defineComponent({
   setup(){
     const { $axios } = useContext()
-    let customers = ref<Customer[]> ([])
 
-    onMounted(()=>{
-      $axios.$get('/api/v1/customers')
-      .then(response => customers.value = response)
-    })
+    let customers = useAsync(()=> $axios.get('/api/v1/customers')
+                                  .then((response) => { return response.data })
+    )
 
     let newCustomer = ref<Customer>({ name:'', tel:'', mail:'' })
     const inputForm = ref<HTMLInputElement>()

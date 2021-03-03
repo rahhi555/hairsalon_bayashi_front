@@ -17,18 +17,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, onMounted, ref, useContext } from '@nuxtjs/composition-api'
+import { defineComponent, useAsync, ref, useContext } from '@nuxtjs/composition-api'
 import { Rank } from 'interface'
 
 export default defineComponent({
   setup(){
     const {$axios} = useContext()
-    const ranks = ref<Rank[]>([])
 
-    onMounted(()=>{
-      $axios.get('/api/v1/ranks')
-      .then((response)=> ranks.value = response.data)
-    })
+    let ranks = useAsync(() => $axios.get('/api/v1/ranks')
+                              .then((response)=> {return response.data})
+    )
 
     let newRank = ref<Rank>( {name: ''} )
     const inputForm = ref<HTMLInputElement>()
