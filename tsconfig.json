@@ -26,9 +26,12 @@
     "types": [
       "@nuxt/types",
       "@nuxtjs/axios",
-      "@types/node"
+      "@types/node",
     ]
   },
+  "typeRoots": [
+    "./@types/interface.d.ts"
+  ],
   "exclude": [
     "node_modules",
     ".nuxt",

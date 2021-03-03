@@ -15,7 +15,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {src: '~plugins/axios.js'}
+    {src: '~/plugins/axios.js'},
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -52,5 +52,10 @@ export default {
   build: {},
   generate: {
     interval: 2000
+  },
+  publicRuntimeConfig: {
+    axios: {
+      browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost:3000'
+    }
   }
 }

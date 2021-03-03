@@ -12,15 +12,7 @@
 
 <script lang="ts">
 import {defineComponent, onMounted, ref, useContext} from '@nuxtjs/composition-api'
-
-interface Customer {
-  id?: number,
-  name: string,
-  tel: string,
-  mail: string
-  created_at?: Date,
-  updated_at?: Date
-}
+import {Customer} from 'interface'
 
 export default defineComponent({
   validate({ params }) {
@@ -33,18 +25,18 @@ export default defineComponent({
     )
 
     onMounted(()=>{
-      $axios.$get(`http://localhost:3000/api/v1/customers/${params.value.id}`)
+      $axios.$get(`/api/v1/customers/${params.value.id}`)
       .then(response => customer.value = response)
     })
 
     const updateCustomer = (()=>{
-      $axios.patch(`http://localhost:3000/api/v1/customers/${params.value.id}`,
+      $axios.patch(`/api/v1/customers/${params.value.id}`,
       {customer: {  name: customer.value.name, 
                     tel: customer.value.tel, 
                     mail: customer.value.mail  }})
       .then(()=> {return redirect('/')})
     })
-    return { onMounted, customer, updateCustomer }
+    return { customer, updateCustomer }
   }
 })
 </script>
