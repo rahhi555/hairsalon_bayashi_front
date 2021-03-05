@@ -39,7 +39,7 @@ export default defineComponent({
 
     const deleteRank = ((id:number) => {
       $axios.delete(`/api/v1/ranks/${id}`)
-      .then(()=>{ranks.value = ranks.value.filter((rank) => {
+      .then(()=>{ranks.value = ranks.value.filter((rank:Rank) => {
          return rank.id != id })
       })
     })

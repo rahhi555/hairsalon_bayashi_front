@@ -12,7 +12,7 @@
 
 <script lang="ts">
 import {defineComponent, useAsync, ref, useContext} from '@nuxtjs/composition-api'
-import {Customer} from 'interface'
+import {Customer} from "interface"
 
 export default defineComponent({
   validate({ params }) {
@@ -21,15 +21,15 @@ export default defineComponent({
   setup(){
     const {$axios, params, redirect} = useContext()
 
-    const customer:Customer = useAsync<Customer>(() => $axios.get(`/api/v1/customers/${params.value.id}`)
+    const customer = useAsync<Customer>(() => $axios.get(`/api/v1/customers/${params.value.id}`)
                               .then(response => {return response.data})
     )
 
     const updateCustomer = (()=>{
       $axios.patch(`/api/v1/customers/${params.value.id}`,
-      {customer: {  name: customer.value.name, 
-                    tel: customer.value.tel, 
-                    mail: customer.value.mail  }})
+      {customer: {  name: customer.value?.name, 
+                    tel: customer.value?.tel, 
+                    mail: customer.value?.mail  }})
       .then(()=> {return redirect('/')})
     })
     return { customer, updateCustomer }

@@ -3,7 +3,7 @@
     <div>
       <h1>hair salon bayashi</h1>
       <h2>客一覧</h2>
-      <table>
+      <table v-if="customers">
         <thead>
           <tr>
             <th>会員番号</th>
@@ -39,7 +39,7 @@
 
 <script lang="ts">
 import {defineComponent, ref, useAsync, useContext} from "@nuxtjs/composition-api"
-import { Customer } from "interface"
+import { Customer } from 'interface'
 
 export default defineComponent({
   setup(){
@@ -51,17 +51,17 @@ export default defineComponent({
 
     let newCustomer = ref<Customer>({ name:'', tel:'', mail:'' })
     const inputForm = ref<HTMLInputElement>()
-    const addCustomer = ref(()=>{
+    const addCustomer = (()=>{
       $axios.post('/api/v1/customers', {customer: newCustomer.value})
       .then(response => customers.value.push(response.data))
       .then(() => newCustomer.value = { name: '', tel: '', mail: '' } )
       .then(() => inputForm.value?.focus())
     })
 
-    const deleteCustomer = ref((id:number) => {
+    const deleteCustomer = ((id:number) => {
       $axios.delete(`/api/v1/customers/${id}`)
       .then(()=>{
-        customers.value = customers.value.filter((customer) => { return customer.id != id })
+        customers.value = customers.value.filter((customer:Customer) => { return customer.id != id })
       })
     })
 
