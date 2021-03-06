@@ -14,7 +14,7 @@
       <tbody>
         <tr v-for="stylist in stylists" :key="stylist.id">
           <td>{{stylist.name}}</td>
-          <td>{{stylist.is_male}}</td>
+          <td>{{ stylist.is_male ? '男' : '女' }}</td>
           <td>{{stylist.hire_on}}</td>
           <td>{{stylist.nickname}}</td>
           <td>{{stylist.rank_id}}</td>
@@ -22,12 +22,20 @@
       </tbody>
     </table>
     <form @submit.prevent="addStylist">
-      <label>名前：<input type="text" required v-model="newStylist.name"></label>
-      <label><input type="radio" name="isMale" value="1" v-model="newStylist.is_male">男性</label>
-      <label><input type="radio" name="isMale" value="0" v-model="newStylist.is_male">女性</label>
+      <label>名前：<input type="text" required v-model="newStylist.name" ref="inputForm"></label>
+      <label><input type="radio" name="isMale" value="true" v-model="newStylist.is_male">男性</label>
+      <label><input type="radio" name="isMale" value="false" v-model="newStylist.is_male">女性</label>
       <label>入社日：<input type="date" v-model="newStylist.hire_on"></label>
       <label>肩書：<input type="text" v-model="newStylist.nickname"></label>
-      <label>ランク：<input type="text" v-model="newStylist.nickname"></label>
+      <label>ランク：
+        <select v-model="newStylist.rank_id">
+          <option value=null selected>なし</option>
+          <option v-for="rank in ranks" :value="rank.id" :key="rank.id">
+            {{ rank.name }}
+          </option>
+        </select>
+      </label>
+      <input type="submit" value="スタイリスト追加">
     </form>
   </div>
 </template>
@@ -41,10 +49,20 @@ export default defineComponent({
     const { $axios } = useContext()
 
     const stylists = useAsync(() =>$axios.get('/api/v1/stylists')
-                    .then((response)=> {return response.data}))
+                    .then( (response) => { return response.data }))
+    const ranks = useAsync(() => $axios.get('/api/v1/ranks')
+                    .then( (response) => { return response.data }))
 
-    let newStylist = ref<Stylist>({ name: '', is_male: 1, nickname: '', hire_on: '', rank_id: '' })
-    return { stylists, newStylist }
+    let newStylist = ref<Stylist>({ name: '', is_male: true, nickname: '', hire_on: '', rank_id: null})
+    const inputForm = ref<HTMLInputElement>()
+    const addStylist = (() => {
+      $axios.post('/api/v1/stylists', { stylist: newStylist.value })
+      .then((response) => { stylists.value.push(response.data) })
+      .then(() => newStylist.value = { name: '', is_male: true, nickname: '',　hire_on: '', rank_id: null} )
+      .then(() => inputForm.value?.focus())
+    })
+
+    return { stylists, newStylist, ranks, addStylist, inputForm }
   }
 })
 </script>
