@@ -37,7 +37,6 @@
       </label>
       <input type="submit" value="スタイリスト追加">
     </form>
-    {{newStylist}}
   </div>
 </template>
 

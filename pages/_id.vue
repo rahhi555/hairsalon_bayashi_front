@@ -4,7 +4,7 @@
       <label>名前：<input type="text" v-model="customer.name"></label>
       <label>電話番号：<input type="tel" v-model="customer.tel"></label>
       <label>メールアドレス：<input type="email" v-model="customer.mail"></label>
-      <NuxtLink to="/">[back]</NuxtLink>
+      <NuxtLink to="customers" class="text-gray-600 cursor-pointer hover:text-red-500">[back]</NuxtLink>
       <input type="submit" value="変更">
     </form>
   </div>
@@ -21,8 +21,9 @@ export default defineComponent({
   setup(){
     const {$axios, params, redirect} = useContext()
 
-    const customer = useAsync<Customer>(() => $axios.get(`/api/v1/customers/${params.value.id}`)
-                              .then(response => {return response.data})
+    const customer = useAsync<Customer>(() =>
+      $axios.get(`/api/v1/customers/${params.value.id}`)
+      .then(response => {return response.data})
     )
 
     const updateCustomer = (()=>{
@@ -30,7 +31,7 @@ export default defineComponent({
       {customer: {  name: customer.value?.name, 
                     tel: customer.value?.tel, 
                     mail: customer.value?.mail  }})
-      .then(()=> {return redirect('/')})
+      .then(()=> {return redirect('customers')})
     })
     return { customer, updateCustomer }
   }
