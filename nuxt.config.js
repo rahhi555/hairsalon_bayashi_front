@@ -1,3 +1,4 @@
+require('dotenv').config();
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -21,6 +22,8 @@ export default {
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
     {src: '~/plugins/axios.js'},
+    '@/plugins/vee-validate',
+    "@/plugins/auth-check.client.js"
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -32,7 +35,8 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
-    '@nuxtjs/composition-api'
+    '@nuxtjs/composition-api',
+    '@nuxtjs/dotenv'
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -54,7 +58,11 @@ export default {
   },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {},
+  build: {
+    transpile: [
+      "vee-validate/dist/rules"
+    ]
+  },
   generate: {
     interval: 2000
   },
