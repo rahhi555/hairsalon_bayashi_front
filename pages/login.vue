@@ -27,7 +27,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent, ref, useRouter, useStore } from '@nuxtjs/composition-api'
 import firebase from "@/plugins/firebase"
 
 export default defineComponent({
@@ -36,10 +36,17 @@ export default defineComponent({
     const password = ref<string>('')
     let error = ref<string | undefined>('')
 
+    const store = useStore()
     const router = useRouter()
     const login = () => {
       firebase.auth().signInWithEmailAndPassword(email.value, password.value)
-      .then(() => router.push('/'))
+      .then(() => {
+        store.commit('setFlash', { status: 'success', message: "ログインに成功しました！" } )
+        setTimeout(()=>{
+          store.commit('setFlash', {} )
+        }, 5000 )
+        router.push('/')
+      })
       .catch(e =>{
         error.value = (code => {
           switch(code){

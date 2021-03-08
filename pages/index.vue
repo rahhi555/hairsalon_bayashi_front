@@ -1,6 +1,7 @@
 <template>
   <div>
     {{$store.state.currentUser}}
+    {{$store.state.flash}}
   </div>
 </template>
 
