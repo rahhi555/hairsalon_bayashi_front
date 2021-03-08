@@ -37,7 +37,7 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, useRouter } from '@nuxtjs/composition-api'
+import { defineComponent, ref, useRouter, useStatic, useStore } from '@nuxtjs/composition-api'
 import firebase from '@/plugins/firebase'
 
 export default defineComponent({
@@ -47,10 +47,15 @@ export default defineComponent({
       logginButtonToggle.value = logginButtonToggle.value ? false : true  
     })
 
+    const store = useStore()
     const router = useRouter()
     const logout = () => {
       firebase.auth().signOut()
         .then(() => {
+          store.commit('setFlash',{ status: 'comeout', message: 'ログアウトしました' })
+          setTimeout(()=>{
+            store.commit('setFlash', {})
+          }, 5000)
           router.push('/login')
       }, error => {
           console.log(error)
