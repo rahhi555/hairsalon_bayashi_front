@@ -1,20 +1,24 @@
 <template>
   <transition name="flash">
-    <div v-if="$store.state.flash.status" class="flash" :class="$store.state.flash.status">
-      <p>{{$store.state.flash.message}}</p>
+    <div
+      v-if="$store.state.flash.status"
+      class="flash"
+      :class="$store.state.flash.status"
+    >
+      <p>{{ $store.state.flash.message }}</p>
     </div>
   </transition>
 </template>
 
 <style scoped>
-.flash{
+.flash {
   position: absolute;
   top: 80px;
   height: 30px;
   width: 100%;
 }
 
-p{
+p {
   color: white;
   text-align: center;
 }

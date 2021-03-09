@@ -1,7 +1,7 @@
 <template>
   <div>
-    {{$store.state.currentUser}}
-    {{$store.state.flash}}
+    {{ $store.state.currentUser }}
+    {{ $store.state.flash }}
   </div>
 </template>
 
@@ -9,8 +9,8 @@
 import { defineComponent } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  setup(){
+  setup() {
     return {}
-  }
+  },
 })
 </script>

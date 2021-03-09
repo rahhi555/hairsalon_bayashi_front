@@ -1,18 +1,34 @@
 <template>
   <article>
     <figure>
-      <img src="hogehoge" @error="noImage">
+      <img src="hogehoge" @error="noImage" />
     </figure>
     <div class="relative">
       <span class="absolute right-0">
-        <NuxtLink :to="`/${id}`"><span class="material-icons">open_in_new</span></NuxtLink>
-        <span class="material-icons cursor-pointer" @click="deleteCustomerEmit">delete</span>
+        <NuxtLink :to="`/${id}`"
+          ><span class="material-icons">open_in_new</span></NuxtLink
+        >
+        <span class="material-icons cursor-pointer" @click="deleteCustomerEmit"
+          >delete</span
+        >
       </span>
       <table>
-        <tr><th>No:</th><td>{{id}}</td></tr>        
-        <tr><th>Name:</th><td>{{name}}</td></tr>        
-        <tr><th>Tel:</th><td>{{tel}}</td></tr>        
-        <tr><th>Mail:</th><td>{{mail}}</td></tr>        
+        <tr>
+          <th>No:</th>
+          <td>{{ id }}</td>
+        </tr>
+        <tr>
+          <th>Name:</th>
+          <td>{{ name }}</td>
+        </tr>
+        <tr>
+          <th>Tel:</th>
+          <td>{{ tel }}</td>
+        </tr>
+        <tr>
+          <th>Mail:</th>
+          <td>{{ mail }}</td>
+        </tr>
       </table>
     </div>
   </article>
@@ -26,30 +42,29 @@ export default defineComponent({
     id: Number,
     name: String,
     tel: String,
-    mail: String
+    mail: String,
   },
-  setup(props, context){
-    const noImage = ((element:any): void => {
-      element.target.src = require("~/assets/image/no_image.png")
-    })
+  setup(_, context) {
+    const noImage = (element: any): void => {
+      element.target.src = require('~/assets/image/no_image.png')
+    }
 
-    const deleteCustomerEmit = (()=>{
+    const deleteCustomerEmit = () => {
       context.emit('deleteCustomerEmit')
-    })
+    }
 
-    return {noImage, deleteCustomerEmit}
-  }
+    return { noImage, deleteCustomerEmit }
+  },
 })
 </script>
 
 <style scoped>
 article {
-  background-color:#CDD6DD;
+  background-color: #cdd6dd;
   height: 300px;
   width: 230px;
   margin: 13px;
   box-shadow: 1px 1px 3px 1px black;
-  
 }
 
 figure {

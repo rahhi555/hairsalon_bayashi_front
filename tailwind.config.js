@@ -4,11 +4,11 @@ module.exports = {
   theme: {
     extend: {
       container: {
-        center: true
+        center: true,
       },
       backgroundColor: {
-        mypink: '#ED5294'
-      }
+        mypink: '#ED5294',
+      },
     },
   },
   variants: {
