@@ -2,8 +2,9 @@ export const state = () => ({
   currentUser: null,
   flash: {
     status: '',
-    message: ''
-  }
+    message: '',
+  },
+  loggedIn: false,
 })
 
 export const mutations = {
@@ -12,5 +13,8 @@ export const mutations = {
   },
   setFlash(state, payload) {
     state.flash = payload
-  }
+  },
+  setLoggedIn(state, payload) {
+    state.loggedIn = payload
+  },
 }

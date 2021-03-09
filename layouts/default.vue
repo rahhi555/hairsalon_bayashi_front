@@ -10,16 +10,15 @@
 </template>
 
 <script lang="ts">
-import {defineComponent, provide, reactive} from '@nuxtjs/composition-api'
+import { defineComponent, provide, reactive } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  setup(){
-    const setting = reactive<{name: string}>({
-      name: 'my-unko!!!!!'
+  setup() {
+    const setting = reactive<{ name: string }>({
+      name: 'my-unko!!!!!',
     })
-    provide('unko', setting )
-    
-  }
+    provide('unko', setting)
+  },
 })
 </script>
 

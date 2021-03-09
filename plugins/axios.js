@@ -1,13 +1,13 @@
-export default ({$axios}) => {
-  //リクエストログ
+export default ({ $axios }) => {
+  // リクエストログ
   $axios.onRequest((config) => {
     console.log(config)
   })
-  //レスポンスログ
+  // レスポンスログ
   $axios.onResponse((config) => {
     console.log(config)
   })
-  //エラーログ
+  // エラーログ
   $axios.onError((e) => {
     console.log(e.response)
   })

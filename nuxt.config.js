@@ -1,4 +1,4 @@
-require('dotenv').config();
+require('dotenv').config()
 export default {
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
@@ -10,20 +10,21 @@ export default {
     ],
     link: [
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' },
-      { rel: 'stylesheet', href: 'https://fonts.googleapis.com/icon?family=Material+Icons' }
+      {
+        rel: 'stylesheet',
+        href: 'https://fonts.googleapis.com/icon?family=Material+Icons',
+      },
     ],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-    '~/assets/css/tailwind.css'
-  ],
+  css: ['~/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    {src: '~/plugins/axios.js'},
+    { src: '~/plugins/axios.js' },
     '@/plugins/vee-validate',
-    "@/plugins/auth-check.client.js"
+    '@/plugins/auth-check.client.js',
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -36,7 +37,7 @@ export default {
     // https://go.nuxtjs.dev/tailwindcss
     '@nuxtjs/tailwindcss',
     '@nuxtjs/composition-api',
-    '@nuxtjs/dotenv'
+    '@nuxtjs/dotenv',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -59,17 +60,15 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: [
-      "vee-validate/dist/rules"
-    ]
+    transpile: ['vee-validate/dist/rules'],
   },
   generate: {
-    interval: 2000
+    interval: 2000,
   },
   publicRuntimeConfig: {
     axios: {
       baseURL: process.env.BASE_URL || 'http://web:3000',
-      browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost:3000'
-    }
-  }
+      browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost:3000',
+    },
+  },
 }

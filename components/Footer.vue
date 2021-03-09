@@ -1,14 +1,12 @@
 <template>
   <footer>
-    <p>
-      Hairsalon BAYASHI
-    </p>
+    <p>Hairsalon BAYASHI</p>
   </footer>
 </template>
 
 <style scoped>
-footer{
-  background-color: #3B4043;
+footer {
+  background-color: #3b4043;
   text-align: center;
   color: white;
   height: 50px;

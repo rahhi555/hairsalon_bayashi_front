@@ -8,10 +8,10 @@ const fbConfig = {
   storageBucket: process.env.STORAGE_BUCKET,
   messagingSenderId: process.env.MESSAGE_SENDER_ID,
   appId: process.env.APP_ID,
-  measurementId: process.env.MEASUREMENT_ID
-};
+  measurementId: process.env.MEASUREMENT_ID,
+}
 
-if(!firebase.apps.length){
+if (!firebase.apps.length) {
   firebase.initializeApp(fbConfig)
 }
 
