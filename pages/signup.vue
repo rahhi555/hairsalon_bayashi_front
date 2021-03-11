@@ -138,9 +138,8 @@ export default defineComponent({
       firebase
         .auth()
         .createUserWithEmailAndPassword(email.value, password.value)
-        .then(async (res) => {
+        .then((res) => {
           // await writeUserData(res?.user?.uid, res.user?.email)
-          await store.dispatch('modules/user/login', res.user)
           const newCustomer = {
             // api側はカラム名がemaiではなくmailなので変換
             mail: res?.user?.email,
@@ -150,7 +149,9 @@ export default defineComponent({
           }
           $axios
             .post('/api/v1/customers', { customer: newCustomer })
-            .then((res) => store.commit('setUser', res))
+            .then((res) => {
+              store.dispatch('modules/user/login', res.data)
+            })
             .then(() => {
               router.push('/')
             })

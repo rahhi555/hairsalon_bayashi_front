@@ -76,7 +76,7 @@ export const actions = {
     cookies.set('access_token', token)
     await dispatch('setUSER', userInfo)
     await dispatch('setRailsCustomerFromApi', userInfo.uid)
-    console.log('[STORE ACTIONS] - in login, response:', state)
+    console.log('[STORE ACTIONS] - in login end, response:', state)
   },
 
   logout({ commit }) {
