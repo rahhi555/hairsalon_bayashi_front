@@ -117,6 +117,19 @@ export default defineComponent({
     const show2 = ref<boolean>(false)
     const error = ref<string | undefined>('')
 
+    // firebaseのstoreにログインしたユーザーを追加する
+    // const writeUserData = (
+    //   userId: string | undefined,
+    //   email: string | null | undefined
+    // ) => {
+    //   return firebase
+    //     .database()
+    //     .ref('users/' + userId)
+    //     .set({
+    //       email,
+    //     })
+    // }
+
     const { $axios } = useContext()
     const router = useRouter()
     const store = useStore()
@@ -124,7 +137,9 @@ export default defineComponent({
       firebase
         .auth()
         .createUserWithEmailAndPassword(email.value, password.value)
-        .then((res) => {
+        .then(async (res) => {
+          // await writeUserData(res?.user?.uid, res.user?.email)
+          await store.dispatch('modules/user/login', res.user)
           const newCustomer = {
             // api側はカラム名がemaiではなくmailなので変換
             mail: res?.user?.email,

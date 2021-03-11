@@ -57,6 +57,7 @@ import {
 import firebase from '@/plugins/firebase'
 
 export default defineComponent({
+  middleware: ['handle-login-route'],
   setup() {
     const email = ref<string>('')
     const password = ref<string>('')
@@ -68,7 +69,8 @@ export default defineComponent({
       firebase
         .auth()
         .signInWithEmailAndPassword(email.value, password.value)
-        .then(() => {
+        .then((res) => {
+          store.dispatch('modules/user/login', res?.user)
           store.commit('setFlash', {
             status: 'success',
             message: 'ログインに成功しました！',

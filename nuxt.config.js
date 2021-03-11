@@ -24,7 +24,7 @@ export default {
   plugins: [
     { src: '~/plugins/axios.js' },
     '@/plugins/vee-validate',
-    '@/plugins/auth-check.client.js',
+    { src: '~/plugins/auth-check.client.js' },
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -47,7 +47,6 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
   ],
-
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
 
@@ -61,6 +60,10 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     transpile: ['vee-validate/dist/rules'],
+    filenames: {
+      app: ({ isDev }) => (isDev ? '[name].[hash].js' : '[chunkhash].js'),
+      chunk: ({ isDev }) => (isDev ? '[name].[hash].js' : '[chunkhash].js'),
+    },
   },
   generate: {
     interval: 2000,

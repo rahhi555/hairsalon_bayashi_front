@@ -5,7 +5,7 @@
     </NuxtLink>
 
     <div
-      v-if="$store.state.loggedIn"
+      v-if="$store.getters['modules/user/isAuthenticated']"
       class="w-full h-5/6 flex justify-end items-center"
     >
       <nav>
@@ -90,6 +90,7 @@ export default defineComponent({
         .signOut()
         .then(
           () => {
+            store.dispatch('modules/user/logout')
             store.commit('setFlash', {
               status: 'comeout',
               message: 'ログアウトしました',
