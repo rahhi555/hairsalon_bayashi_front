@@ -3,7 +3,8 @@ import Cookie from 'universal-cookie'
 
 // state
 export const state = () => ({
-  user: {}, // email: string, uid: string を入れたい
+  user: {}, // firebaseで管理されているログイン用のみの顧客データ
+  railsCustomer: {}, // uidで紐付けられた、railsのcustomersテーブルで保存されている顧客データ
 })
 
 // getters
@@ -14,6 +15,9 @@ export const getters = {
   },
   user(state) {
     return state.user
+  },
+  railsCustomer(state) {
+    return state.railsCustomer
   },
 
   // 認証チェック
@@ -28,6 +32,10 @@ export const mutations = {
     console.log('[STORE MUTATIONS] - setUser:', user)
     state.user = user
   },
+  setRailsCustomer(state, railsCustomer) {
+    console.log('[STORE MUTATIONS] - setRailsCutomer:', railsCustomer)
+    state.railsCustomer = railsCustomer
+  },
 }
 
 // actions
@@ -36,6 +44,22 @@ export const actions = {
   setUSER({ commit }, user) {
     console.log('[STORE ACTIONS] - setUSER', user)
     commit('setUser', user)
+  },
+  setRailsCustomer({ commit }, railsCustomer) {
+    console.log('[STORE ACTIONS] - setRailsCustomer', railsCustomer)
+    commit('setRailsCustomer', railsCustomer)
+  },
+  // axiosを使用してapiからcustomer情報を入手
+  async setRailsCustomerFromApi({ commit }, uid) {
+    await this.$axios
+      .$get(`/api/v1/customers?uid=${uid}`)
+      .then((res) => {
+        commit('setRailsCustomer', res)
+      })
+      .catch((e) => {
+        console.log('error!!:', e)
+        commit('setRailsCustomer', null)
+      })
   },
 
   async login({ dispatch, state }, user) {
@@ -51,6 +75,7 @@ export const actions = {
     // access_tokenというキーでトークンをクッキーストレージにセット
     cookies.set('access_token', token)
     await dispatch('setUSER', userInfo)
+    await dispatch('setRailsCustomerFromApi', userInfo.uid)
     console.log('[STORE ACTIONS] - in login, response:', state)
   },
 
@@ -59,5 +84,6 @@ export const actions = {
     const cookies = new Cookie()
     cookies.remove('access_token')
     commit('setUser', {})
+    commit('setRailsCustomer', {})
   },
 }

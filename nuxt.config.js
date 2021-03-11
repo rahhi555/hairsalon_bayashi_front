@@ -21,11 +21,7 @@ export default {
   css: ['~/assets/css/tailwind.css'],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-    { src: '~/plugins/axios.js' },
-    '@/plugins/vee-validate',
-    { src: '~/plugins/auth-check.client.js' },
-  ],
+  plugins: [{ src: '~/plugins/axios.js' }, '@/plugins/vee-validate'],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,

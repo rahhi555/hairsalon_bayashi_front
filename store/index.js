@@ -2,7 +2,6 @@ import jwtDecode from 'jwt-decode'
 const cookieparser = require('cookieparser')
 
 export const state = () => ({
-  currentUser: null,
   flash: {
     status: '',
     message: '',
@@ -10,9 +9,6 @@ export const state = () => ({
 })
 
 export const mutations = {
-  setUser(state, payload) {
-    state.currentUser = payload
-  },
   setFlash(state, payload) {
     state.flash = payload
   },
@@ -21,7 +17,6 @@ export const mutations = {
 export const actions = {
   // nuxtServerInitはサーバーサイドでの最も早い処理
   async nuxtServerInit({ dispatch }, { req }) {
-    console.log('nuxtServerInit start!!')
     const getUserFromCookie = (req) => {
       // ssrかssgの時に動作をキャンセルする？それだったら意味なくね？
       if (process.server && process.static) return
@@ -48,6 +43,7 @@ export const actions = {
         email: user.email,
         uid: user.user_id,
       })
+      await dispatch('modules/user/setRailsCustomerFromApi', user.user_id)
     }
   },
 }

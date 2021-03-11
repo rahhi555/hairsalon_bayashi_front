@@ -1,6 +1,6 @@
 <template>
   <div>
-    <p>currentUser: {{ $store.state.currentUser }}</p>
+    <p>rails_customer: {{ $store.getters['modules/user/railsCustomer'] }}</p>
     <p>flash: {{ $store.state.flash }}</p>
     <p>user: {{ $store.state.modules.user.user }}</p>
     <button @click="$store.dispatch('modules/user/login')">dispatch</button>
