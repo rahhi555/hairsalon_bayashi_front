@@ -114,8 +114,6 @@ export default defineComponent({
     const tel = ref<string>('')
     const password = ref<string>('')
     const passwordConfirm = ref<string>('')
-    const show1 = ref<boolean>(false)
-    const show2 = ref<boolean>(false)
     const error = ref<string | undefined>('')
 
     // firebaseのstoreにログインしたユーザーを追加する
@@ -175,8 +173,6 @@ export default defineComponent({
       tel,
       password,
       passwordConfirm,
-      show1,
-      show2,
       error,
       signup,
     }

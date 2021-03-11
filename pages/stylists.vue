@@ -71,6 +71,7 @@ import {
 import { Stylist } from 'interface'
 
 export default defineComponent({
+  layout: 'protected',
   setup() {
     const { $axios } = useContext()
 

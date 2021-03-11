@@ -21,6 +21,7 @@ import { defineComponent, useAsync, useContext } from '@nuxtjs/composition-api'
 import { Customer } from 'interface'
 
 export default defineComponent({
+  layout: 'protected',
   validate({ params }) {
     return /^\d+$/.test(params.id)
   },
