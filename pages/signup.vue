@@ -107,6 +107,7 @@ import {
 import firebase from '@/plugins/firebase'
 
 export default defineComponent({
+  middleware: ['handle-login-route'],
   setup() {
     const email = ref<string>('')
     const name = ref<string>('')
