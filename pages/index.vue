@@ -3,21 +3,23 @@
     <p>rails_customer: {{ $store.getters['modules/user/railsCustomer'] }}</p>
     <p>flash: {{ $store.state.flash }}</p>
     <p>user: {{ $store.state.modules.user.user }}</p>
-    <button @click="$store.dispatch('modules/user/login')">dispatch</button>
-    <button @click="isAuthenticated">isAuthenticated</button>
+    <button @click="test">dispatch</button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, useStore } from '@nuxtjs/composition-api'
+import { defineComponent, useContext } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   setup() {
-    const store = useStore()
-    const isAuthenticated = () => {
-      console.log(store.getters['modules/user/isAuthenticated'])
+    const { $axios } = useContext()
+    const test = () => {
+      $axios
+        .$get('//localhost:8080/server/test/unko!!!!!!!!')
+        .then((res) => console.log(res))
+        .catch((e) => console.log('error!', e))
     }
-    return { isAuthenticated }
+    return { test }
   },
 })
 </script>

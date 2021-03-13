@@ -1,4 +1,4 @@
-import firebase from 'firebase/app'
+import firebase from '@/plugins/firebase'
 import Cookie from 'universal-cookie'
 
 // state

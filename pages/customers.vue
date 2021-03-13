@@ -10,28 +10,9 @@
           :name="customer.name"
           :tel="customer.tel"
           :mail="customer.mail"
-          @deleteCustomerEmit="deleteCustomer(customer.id)"
+          @deleteCustomerEmit="deleteCustomer(customer.id, customer.uid)"
         />
       </div>
-      <form @submit.prevent="addCustomer">
-        <label
-          >名前<input
-            ref="inputForm"
-            v-model="newCustomer.name"
-            type="text"
-            class="my-input"
-        /></label>
-        <label
-          >電話<input v-model="newCustomer.tel" type="tel" class="my-input"
-        /></label>
-        <label
-          >メールアドレス<input
-            v-model="newCustomer.mail"
-            type="email"
-            class="my-input"
-        /></label>
-        <input type="submit" value="add" />
-      </form>
     </div>
   </div>
 </template>
@@ -58,15 +39,13 @@ export default defineComponent({
 
     const newCustomer = ref<Customer>({ name: '', tel: '', mail: '' })
     const inputForm = ref<HTMLInputElement>()
-    const addCustomer = () => {
-      $axios
-        .post('/api/v1/customers', { customer: newCustomer.value })
-        .then((response) => customers.value.push(response.data))
-        .then(() => (newCustomer.value = { name: '', tel: '', mail: '' }))
-        .then(() => inputForm.value?.focus())
-    }
 
-    const deleteCustomer = (id: number) => {
+    const deleteCustomer = async (id: number, uid: string) => {
+      await $axios
+        .delete(`//localhost:8080/server/user/delete/${uid}`)
+        .catch((e) => {
+          console.error('delete firebase use failed!! :', e)
+        })
       $axios.delete(`/api/v1/customers/${id}`).then(() => {
         customers.value = customers.value.filter((customer: Customer) => {
           return customer.id !== id
@@ -74,7 +53,7 @@ export default defineComponent({
       })
     }
 
-    return { customers, newCustomer, addCustomer, deleteCustomer, inputForm }
+    return { customers, newCustomer, deleteCustomer, inputForm }
   },
 })
 </script>
