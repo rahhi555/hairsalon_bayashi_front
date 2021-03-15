@@ -35,6 +35,19 @@ app.delete('/user/delete/:uid', (req: Request, res: Response) => {
     })
 })
 
+app.patch('/changeAdmin/:uid', (req: Request, res: Response) => {
+  const uid: string = req.params.uid as string
+  firebaseAdmin
+    .auth()
+    .setCustomUserClaims(uid, { admin: true })
+    .then(() => {
+      res.send('add admin!!')
+    })
+    .catch(e => {
+      res.send(e)
+    })
+})
+
 app.get('/hello', (req: Request, res:Response) => {
   res.send("HELLO!!")
 })

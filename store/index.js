@@ -42,6 +42,7 @@ export const actions = {
       await dispatch('modules/user/setUSER', {
         email: user.email,
         uid: user.user_id,
+        admin: user.admin,
       })
       await dispatch('modules/user/setRailsCustomerFromApi', user.user_id)
     }
