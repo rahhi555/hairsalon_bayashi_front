@@ -147,8 +147,8 @@ export default defineComponent({
           }
           $axios
             .post('/api/v1/customers', { customer: newCustomer })
-            .then((res) => {
-              store.dispatch('modules/user/login', res.data)
+            .then(() => {
+              store.dispatch('modules/user/login')
             })
             .then(() => {
               router.push('/')

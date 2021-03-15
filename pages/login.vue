@@ -69,8 +69,8 @@ export default defineComponent({
       firebase
         .auth()
         .signInWithEmailAndPassword(email.value, password.value)
-        .then((res) => {
-          store.dispatch('modules/user/login', res?.user)
+        .then(() => {
+          store.dispatch('modules/user/login')
           store.commit('setFlash', {
             status: 'success',
             message: 'ログインに成功しました！',

@@ -24,6 +24,11 @@ export const getters = {
   isAuthenticated(state) {
     return !!state.user && !!state.user.uid
   },
+  // 管理者&認証チェック
+  isAdminAuthenticated(state) {
+    // !!をつけないとadminじゃないとき、undifinedになってしまいfalseになってくれない
+    return !!state.user.admin
+  },
 }
 
 // mutations
@@ -62,14 +67,15 @@ export const actions = {
       })
   },
 
-  async login({ dispatch, state }, user) {
+  async login({ dispatch, state }) {
     console.log('[STORE ACTIONS] - login')
-    // getIdToken(true)は有効期限に関わらず強制的にリフレッシュする
-    const token = await firebase.auth().currentUser.getIdToken(true)
+    // getIdTokenではなく、getIdTokenResultにしないとclaimsが取得できない(claimsのなかにadmin: trueがある)
+    const token = await firebase.auth().currentUser.getIdTokenResult(true)
     // rails側のcustomerではemailとuidのみなのでその2つを取得
     const userInfo = {
-      uid: user.uid,
-      email: user.email,
+      uid: token.claims.user_id,
+      email: token.claims.email,
+      admin: token.claims.admin,
     }
     const cookies = new Cookie()
     // access_tokenというキーでトークンをクッキーストレージにセット

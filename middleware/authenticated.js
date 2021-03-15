@@ -1,5 +1,9 @@
 export default function ({ store, redirect }) {
-  if (!store.getters['modules/user/isAuthenticated']) {
-    return redirect('/login')
+  // ユーザーとしてログインしていないか、管理者としてログインしていたらリダイレクト
+  if (
+    !store.getters['modules/user/isAuthenticated'] ||
+    store.getters['modules/user/isAdminAuthenticated']
+  ) {
+    return redirect('/')
   }
 }

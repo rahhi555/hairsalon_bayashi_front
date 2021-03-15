@@ -4,6 +4,8 @@
     <p>flash: {{ $store.state.flash }}</p>
     <p>user: {{ $store.state.modules.user.user }}</p>
     <button @click="test">dispatch</button>
+    <p>admin: {{ $store.getters['modules/user/isAdminAuthenticated'] }}</p>
+    <p>authen: {{ $store.getters['modules/user/isAuthenticated'] }}</p>
   </div>
 </template>
 

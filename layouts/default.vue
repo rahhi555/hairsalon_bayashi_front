@@ -2,7 +2,7 @@
   <div id="wrapper">
     <Header />
     <Flash />
-    <main class="container bg-gray-200 w-full">
+    <main class="container bg-gray-200 w-full my-5">
       <Nuxt />
     </main>
     <Footer />
