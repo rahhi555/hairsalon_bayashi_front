@@ -34,7 +34,13 @@ extend('name', {
   },
   message: '名字と名前の間に全角空白を入力してください。',
 })
-
+extend('date', {
+  // 日付
+  validate(value) {
+    return /^\d{4}-\d{1,2}-\d{1,2}$/.test(value)
+  },
+  message: '日付は 2020-1-1 のように入力してください',
+})
 Vue.component('ValidationProvider', ValidationProvider)
 Vue.component('ValidationObserver', ValidationObserver)
 localize('ja', ja)
