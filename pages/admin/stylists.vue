@@ -92,6 +92,8 @@ export default defineComponent({
       nickname: '',
       hire_on: '',
       rank_id: null,
+      tel: '',
+      mail: '',
     })
     const inputForm = ref<HTMLInputElement>()
     const addStylist = () => {
@@ -108,6 +110,8 @@ export default defineComponent({
               nickname: '',
               hire_on: '',
               rank_id: null,
+              tel: '',
+              mail: '',
             })
         )
         .then(() => inputForm.value?.focus())

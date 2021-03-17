@@ -15,10 +15,15 @@
 
   export interface Stylist {
     id?: number;
+    uid?: string;
     rank_id?: number|null;
     name: string;
     is_male: boolean;
     nickname?: string;
     hire_on: string;
+    tel: string;
+    mail: string;
+    created_at?: Date;
+    updated_at?: Date;
   }
  }

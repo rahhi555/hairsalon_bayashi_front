@@ -4,7 +4,7 @@ import Cookie from 'universal-cookie'
 // state
 export const state = () => ({
   user: {}, // firebaseで管理されているログイン用のみの顧客データ
-  railsCustomer: {}, // uidで紐付けられた、railsのcustomersテーブルで保存されている顧客データ
+  loggedInRailsData: {}, // uidで紐付けられた、railsで保存されているログイン中のデータ
 })
 
 // getters
@@ -16,8 +16,8 @@ export const getters = {
   user(state) {
     return state.user
   },
-  railsCustomer(state) {
-    return state.railsCustomer
+  loggedInRailsData(state) {
+    return state.loggedInRailsData
   },
 
   // 認証チェック
@@ -37,9 +37,9 @@ export const mutations = {
     console.log('[STORE MUTATIONS] - setUser:', user)
     state.user = user
   },
-  setRailsCustomer(state, railsCustomer) {
-    console.log('[STORE MUTATIONS] - setRailsCutomer:', railsCustomer)
-    state.railsCustomer = railsCustomer
+  setLoggedInRailsData(state, loggedInRailsData) {
+    console.log('[STORE MUTATIONS] - setRailsCutomer:', loggedInRailsData)
+    state.loggedInRailsData = loggedInRailsData
   },
 }
 
@@ -50,20 +50,20 @@ export const actions = {
     console.log('[STORE ACTIONS] - setUSER', user)
     commit('setUser', user)
   },
-  setRailsCustomer({ commit }, railsCustomer) {
-    console.log('[STORE ACTIONS] - setRailsCustomer', railsCustomer)
-    commit('setRailsCustomer', railsCustomer)
+  setLoggedInRailsData({ commit }, loggedInRailsData) {
+    console.log('[STORE ACTIONS] - setLoggedInRailsData', loggedInRailsData)
+    commit('setLoggedInRailsData', loggedInRailsData)
   },
-  // axiosを使用してapiからcustomer情報を入手
-  async setRailsCustomerFromApi({ commit }, uid) {
+  // uidをもとにapiからデータ入手
+  async getAndSetLoggedInRailsData({ commit }, { table, uid }) {
     await this.$axios
-      .$get(`/api/v1/customers?uid=${uid}`)
+      .$get(`/api/v1/${table}?uid=${uid}`)
       .then((res) => {
-        commit('setRailsCustomer', res)
+        commit('setLoggedInRailsData', res)
       })
       .catch((e) => {
         console.log('error!!:', e)
-        commit('setRailsCustomer', null)
+        commit('setLoggedInRailsData', null)
       })
   },
 
@@ -81,7 +81,12 @@ export const actions = {
     // access_tokenというキーでトークンをクッキーストレージにセット
     cookies.set('access_token', token)
     await dispatch('setUSER', userInfo)
-    await dispatch('setRailsCustomerFromApi', userInfo.uid)
+    // railsのstylistsテーブルかcustomersテーブルかをadminで判断する
+    const tablename = userInfo.admin ? 'stylists' : 'customers'
+    await dispatch('getAndSetLoggedInRailsData', {
+      table: tablename,
+      uid: userInfo.uid,
+    })
     console.log('[STORE ACTIONS] - in login end, response:', state)
   },
 
@@ -90,6 +95,6 @@ export const actions = {
     const cookies = new Cookie()
     cookies.remove('access_token')
     commit('setUser', {})
-    commit('setRailsCustomer', {})
+    commit('setLoggedInRailsData', {})
   },
 }
