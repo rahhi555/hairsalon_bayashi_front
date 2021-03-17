@@ -1,6 +1,6 @@
 <template>
   <div class="addAdminErea">
-    <h1>管理者新規登録</h1>
+    <h1>スタイリスト新規登録</h1>
     <ValidationObserver v-slot="{ invalid }">
       <form class="addAdminForm" @submit.prevent="signup">
         <ValidationProvider
@@ -40,7 +40,7 @@
 
         <ValidationProvider
           v-slot="{ errors }"
-          rules="required"
+          rules="required|date"
           name="入社日"
           class="mt-3"
         >
@@ -51,6 +51,7 @@
             type="date"
             :max="maxDateIsToday"
             class="nonSubmit"
+            placeholder="2021-01-01"
             style="margin-top: 0px"
           />
 
