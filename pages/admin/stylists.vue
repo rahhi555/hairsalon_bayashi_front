@@ -21,54 +21,11 @@
         </tr>
       </tbody>
     </table>
-    <form @submit.prevent="addStylist">
-      <label
-        >名前：<input
-          ref="inputForm"
-          v-model="newStylist.name"
-          type="text"
-          required
-      /></label>
-      <label
-        ><input
-          v-model="newStylist.is_male"
-          type="radio"
-          name="isMale"
-          value="true"
-        />男性</label
-      >
-      <label
-        ><input
-          v-model="newStylist.is_male"
-          type="radio"
-          name="isMale"
-          value="false"
-        />女性</label
-      >
-      <label>入社日：<input v-model="newStylist.hire_on" type="date" /></label>
-      <label>肩書：<input v-model="newStylist.nickname" type="text" /></label>
-      <label
-        >ランク：
-        <select v-model="newStylist.rank_id">
-          <option value="null" selected>なし</option>
-          <option v-for="rank in ranks" :key="rank.id" :value="rank.id">
-            {{ rank.name }}
-          </option>
-        </select>
-      </label>
-      <input type="submit" value="スタイリスト追加" />
-    </form>
   </div>
 </template>
 
 <script lang="ts">
-import {
-  defineComponent,
-  ref,
-  useContext,
-  useAsync,
-} from '@nuxtjs/composition-api'
-import { Stylist } from 'interface'
+import { defineComponent, useContext, useAsync } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   layout: 'admin',
@@ -86,34 +43,7 @@ export default defineComponent({
       })
     )
 
-    const newStylist = ref<Stylist>({
-      name: '',
-      is_male: true,
-      nickname: '',
-      hire_on: '',
-      rank_id: null,
-    })
-    const inputForm = ref<HTMLInputElement>()
-    const addStylist = () => {
-      $axios
-        .post('/api/v1/stylists', { stylist: newStylist.value })
-        .then((response) => {
-          stylists.value.push(response.data)
-        })
-        .then(
-          () =>
-            (newStylist.value = {
-              name: '',
-              is_male: true,
-              nickname: '',
-              hire_on: '',
-              rank_id: null,
-            })
-        )
-        .then(() => inputForm.value?.focus())
-    }
-
-    return { stylists, newStylist, ranks, addStylist, inputForm }
+    return { stylists, ranks }
   },
 })
 </script>
