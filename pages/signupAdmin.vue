@@ -228,6 +228,7 @@ export default defineComponent({
         })
     }
 
+    // 入社日(hire_on)の入力を現在日時よりも以前に制限するために、現在の日時を算出
     const maxDateIsToday = (() => {
       const today = new Date()
       const year = today.getFullYear()
