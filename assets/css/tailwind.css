@@ -16,3 +16,9 @@ input {
   border-radius: 0.25rem;
   padding: 3px 0 3px 3px;
 }
+
+
+.material-icons:hover {
+  cursor: pointer;
+  color: gray;
+}

@@ -43,11 +43,18 @@ export default {
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
     'nuxt-basic-auth-module',
+    '@nuxtjs/dayjs',
   ],
   basic: {
     name: 'administrator',
     pass: 'administrator',
     match: /signupAdmin/,
+  },
+  dayjs: {
+    locales: ['ja'],
+    defaultLocale: 'ja',
+    defaultTimeZone: 'Asia/Tokyo',
+    plugins: ['utc', 'timezone'],
   },
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
   axios: {},
