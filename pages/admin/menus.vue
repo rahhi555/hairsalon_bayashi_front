@@ -13,7 +13,11 @@
           <td>{{ menu.name }}</td>
           <td>{{ menu.code }}</td>
           <td>{{ $dayjs(menu.time).format('H時間 m分') }}</td>
-          <td><span class="material-icons">open_in_new</span></td>
+          <td>
+            <span class="material-icons" @click="editMenu(menu)"
+              >open_in_new</span
+            >
+          </td>
           <td>
             <span class="material-icons" @click="deleteMenu(menu.id)"
               >delete</span
@@ -22,6 +26,16 @@
         </tr>
       </tbody>
     </table>
+
+    <ModalBase v-if="isEditMode" class="my-10" @closeModal="isEditMode = false">
+      <EditMenuModal
+        :id="displayMenu.id"
+        v-model="name"
+        :code="displayMenu.code"
+        :time="displayMenu.time"
+        @editMenuSubmit="editMenuSubmit"
+      />
+    </ModalBase>
 
     <form class="form-area" @submit.prevent="addMenu">
       <label for="menu-name" class="menu-name-label">メニュー名:</label>
@@ -47,12 +61,13 @@
       <input
         id="menu-time"
         v-model="newMenu.time"
-        type="time"
         step="600"
         required
+        type="time"
       />
       <input type="submit" value="追加" class="cursor-pointer" />
     </form>
+    <p class="my-10">{{ displayMenu }}</p>
   </div>
 </template>
 
@@ -62,6 +77,7 @@ import {
   useContext,
   useAsync,
   ref,
+  reactive,
 } from '@nuxtjs/composition-api'
 import { Menu } from 'interface'
 
@@ -69,7 +85,7 @@ export default defineComponent({
   layout: 'admin',
   setup() {
     // 初期設定。apiからMenuの全データ取得
-    const { $axios } = useContext()
+    const { $axios, $dayjs } = useContext()
     const menus = useAsync(() =>
       $axios.get<Menu[]>('/api/v1/menus').then((response) => {
         return response.data
@@ -107,7 +123,42 @@ export default defineComponent({
       })
     }
 
-    return { menus, newMenu, addMenu, focusAfterPost, deleteMenu }
+    // モーダルメニューの表示切り替え
+    const isEditMode = ref<boolean>(false)
+    const displayMenu = reactive<Menu>({ id: 0, name: '', code: '', time: '' })
+    const editMenu = (menu: Menu) => {
+      displayMenu.id = menu.id
+      displayMenu.name = menu.name
+      displayMenu.code = menu.code
+      displayMenu.time = $dayjs(menu.time).format('HH:mm')
+      isEditMode.value = true
+    }
+
+    // モーダルで編集したメニューを送信
+    const editMenuSubmit = () => {
+      $axios
+        .$patch('/api/v1/menus/' + displayMenu.id, { menu: displayMenu })
+        .then(() => {
+          const chengedMenu = menus.value?.find(
+            (menu) => menu.id === displayMenu.id
+          )
+          chengedMenu!.id = displayMenu.id
+          chengedMenu!.name = displayMenu.name
+          chengedMenu!.code = displayMenu.code
+          chengedMenu!.time = displayMenu.time
+        })
+    }
+    return {
+      menus,
+      newMenu,
+      addMenu,
+      focusAfterPost,
+      deleteMenu,
+      isEditMode,
+      displayMenu,
+      editMenu,
+      editMenuSubmit,
+    }
   },
 })
 </script>
