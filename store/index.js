@@ -15,7 +15,14 @@ export const mutations = {
 }
 
 export const actions = {
-  // nuxtServerInitはサーバーサイドでの最も早い処理
+  // flashメッセージ表示及び削除。メッセージが消える秒数はデフォルトで3秒
+  displayFlash({ commit }, { status, message, time = 3000 }) {
+    commit('setFlash', { status, message })
+    setTimeout(() => {
+      commit('setFlash', {})
+    }, time)
+  },
+  // nuxtServerInitはサーバーサイドでの最も早い処理。ssr時にクッキーを取得し認証する。
   async nuxtServerInit({ dispatch }, { req }) {
     const getUserFromCookie = (req) => {
       // ssrかssgの時に動作をキャンセルする？それだったら意味なくね？

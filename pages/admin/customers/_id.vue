@@ -7,15 +7,12 @@
         >メールアドレス：<input v-model="customer.mail" type="email"
       /></label>
       <NuxtLink
-        to="/admin/customers/index"
+        to="/admin/customers/"
         class="text-gray-600 cursor-pointer hover:text-red-500"
         >[back]</NuxtLink
       >
       <input type="submit" value="変更" />
     </form>
-    <button class="button" @click="changeAddmin(customer.uid)">
-      管理者化(仮)
-    </button>
   </div>
 </template>
 
@@ -30,17 +27,6 @@ export default defineComponent({
   },
   setup() {
     const { $axios, params, redirect } = useContext()
-
-    const changeAddmin = (uid: string) => {
-      $axios
-        .patch('//localhost:8080/server/changeAdmin/' + uid)
-        .then((res) => {
-          console.log(res)
-        })
-        .catch((e) => {
-          console.error(e)
-        })
-    }
 
     const customer = useAsync<Customer>(() =>
       $axios
@@ -64,7 +50,7 @@ export default defineComponent({
           return redirect('/admin/customers/index')
         })
     }
-    return { customer, updateCustomer, changeAddmin }
+    return { customer, updateCustomer }
   },
 })
 </script>

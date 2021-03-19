@@ -26,4 +26,13 @@
     created_at?: Date;
     updated_at?: Date;
   }
+
+  export interface Menu {
+    id?: number;
+    name: string;
+    code: string;
+    time: string;
+    created_at?: Date;
+    updated_at?: Date;
+  }
  }

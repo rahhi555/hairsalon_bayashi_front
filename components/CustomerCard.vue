@@ -5,12 +5,10 @@
     </figure>
     <div class="relative">
       <span class="absolute right-0">
-        <NuxtLink :to="`customers/${id}`"
+        <NuxtLink :to="`/admin/customers/${id}`"
           ><span class="material-icons">open_in_new</span></NuxtLink
         >
-        <span class="material-icons cursor-pointer" @click="deleteCustomerEmit"
-          >delete</span
-        >
+        <span class="material-icons" @click="deleteCustomerEmit">delete</span>
       </span>
       <table>
         <tr>
