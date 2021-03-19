@@ -30,9 +30,9 @@
     <ModalBase v-if="isEditMode" class="my-10" @closeModal="isEditMode = false">
       <EditMenuModal
         :id="displayMenu.id"
-        v-model="name"
-        :code="displayMenu.code"
-        :time="displayMenu.time"
+        :name.sync="displayMenu.name"
+        :code.sync="displayMenu.code"
+        :time.sync="displayMenu.time"
         @editMenuSubmit="editMenuSubmit"
       />
     </ModalBase>
@@ -67,7 +67,6 @@
       />
       <input type="submit" value="追加" class="cursor-pointer" />
     </form>
-    <p class="my-10">{{ displayMenu }}</p>
   </div>
 </template>
 
@@ -76,6 +75,7 @@ import {
   defineComponent,
   useContext,
   useAsync,
+  useStore,
   ref,
   reactive,
 } from '@nuxtjs/composition-api'
@@ -91,6 +91,9 @@ export default defineComponent({
         return response.data
       })
     )
+
+    // CRUD操作後にフラッシュメッセージを表示するのでstoreの初期化
+    const store = useStore()
 
     // メニュー追加
     const newMenu = ref<Menu>({
@@ -108,19 +111,45 @@ export default defineComponent({
           focusAfterPost.value?.focus()
           newMenu.value = { name: '', code: '', time: '' }
         })
+        .then(() => {
+          store.dispatch('displayFlash', {
+            status: 'success',
+            message: 'メニューを追加しました',
+          })
+        })
+        .catch(() => {
+          store.dispatch('displayFlash', {
+            status: 'alert',
+            message: 'メニューの追加に失敗しました・・・',
+          })
+        })
     }
 
     // メニュー削除
     const deleteMenu = (id: number) => {
       const confirmResult = confirm('本当に削除してもよろしいですか？')
       if (!confirmResult) return
-      $axios.delete<Menu>('/api/v1/menus/' + id).then(() => {
-        if (menus.value) {
-          menus.value = menus.value?.filter((menu) => {
-            return menu.id !== id
+      $axios
+        .delete<Menu>('/api/v1/menus/' + id)
+        .then(() => {
+          if (menus.value) {
+            menus.value = menus.value?.filter((menu) => {
+              return menu.id !== id
+            })
+          }
+        })
+        .then(() => {
+          store.dispatch('displayFlash', {
+            status: 'success',
+            message: 'メニューを削除しました',
           })
-        }
-      })
+        })
+        .catch(() => {
+          store.dispatch('displayFlash', {
+            status: 'alert',
+            message: 'メニューの削除に失敗しました・・・',
+          })
+        })
     }
 
     // モーダルメニューの表示切り替え
@@ -138,14 +167,25 @@ export default defineComponent({
     const editMenuSubmit = () => {
       $axios
         .$patch('/api/v1/menus/' + displayMenu.id, { menu: displayMenu })
+        .then((res) => {
+          const chengedMenu = menus.value?.find((menu) => menu.id === res.id)
+          chengedMenu!.name = res.name
+          chengedMenu!.code = res.code
+          chengedMenu!.time = res.time
+        })
         .then(() => {
-          const chengedMenu = menus.value?.find(
-            (menu) => menu.id === displayMenu.id
-          )
-          chengedMenu!.id = displayMenu.id
-          chengedMenu!.name = displayMenu.name
-          chengedMenu!.code = displayMenu.code
-          chengedMenu!.time = displayMenu.time
+          isEditMode.value = false
+          store.dispatch('displayFlash', {
+            status: 'success',
+            message: '編集が完了しました',
+          })
+        })
+        .catch(() => {
+          isEditMode.value = false
+          store.dispatch('displayFlash', {
+            status: 'alert',
+            message: '編集に失敗しました・・・',
+          })
         })
     }
     return {

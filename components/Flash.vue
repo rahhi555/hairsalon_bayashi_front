@@ -30,4 +30,8 @@ p {
 .comeout {
   background-color: rgb(125, 97, 247);
 }
+
+.alert {
+  background-color: rgb(247, 97, 97);
+}
 </style>

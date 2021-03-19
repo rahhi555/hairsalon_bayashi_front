@@ -9,14 +9,28 @@
         required
         @input="$emit('update:name', $event.target.value)"
       />
+
       <label for="modal-menu-code">メニューコード：</label>
-      <input id="moda-menu-code" type="text" :value="code" required />
+      <input
+        id="moda-menu-code"
+        type="text"
+        :value="code"
+        required
+        @input="$emit('update:code', $event.target.value)"
+      />
+
       <label for="modal-menu-time">所要時間：</label>
-      <input id="modal-menu-time" type="time" :value="time" required />
+      <input
+        id="modal-menu-time"
+        type="time"
+        :value="time"
+        step="600"
+        required
+        @input="$emit('update:time', $event.target.value)"
+      />
 
       <input type="submit" value="編集" class="modal-menu-submit" />
     </form>
-    {{ props }}
   </div>
 </template>
 
@@ -28,9 +42,6 @@ export default defineComponent({
     name: String,
     code: String,
     time: String,
-  },
-  setup(props) {
-    return { props }
   },
 })
 </script>
