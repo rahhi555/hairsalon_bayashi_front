@@ -1,11 +1,11 @@
 <template>
-  <div>
+  <div class="flex justify-between w-full">
     <table>
       <thead>
         <tr>
-          <th>メニュー名</th>
-          <th>メニューコード</th>
-          <th>メニュー所要時間</th>
+          <th class="th-name">メニュー名</th>
+          <th class="th-code">メニューコード</th>
+          <th class="th-time">メニュー所要時間</th>
         </tr>
       </thead>
       <tbody>
@@ -27,7 +27,11 @@
       </tbody>
     </table>
 
-    <ModalBase v-if="isEditMode" class="my-10" @closeModal="isEditMode = false">
+    <ModalBase
+      v-show="isEditMode"
+      class="my-10"
+      @closeModal="isEditMode = false"
+    >
       <EditMenuModal
         :id="displayMenu.id"
         :name.sync="displayMenu.name"
@@ -152,9 +156,11 @@ export default defineComponent({
         })
     }
 
-    // モーダルメニューの表示切り替え
+    // モーダルメニューの表示切り替え用変数
     const isEditMode = ref<boolean>(false)
+    // エディットアイコンをクリックした時に、そこの行を格納する変数
     const displayMenu = reactive<Menu>({ id: 0, name: '', code: '', time: '' })
+    // クリックした行を変数に格納し、モーダルメニューを表示
     const editMenu = (menu: Menu) => {
       displayMenu.id = menu.id
       displayMenu.name = menu.name
@@ -168,6 +174,7 @@ export default defineComponent({
       $axios
         .$patch('/api/v1/menus/' + displayMenu.id, { menu: displayMenu })
         .then((res) => {
+          // 変更するメニューのみ取り出して変更。オブジェクトなので元オブジェクトの値も一緒に変わる
           const chengedMenu = menus.value?.find((menu) => menu.id === res.id)
           chengedMenu!.name = res.name
           chengedMenu!.code = res.code
@@ -205,12 +212,33 @@ export default defineComponent({
 
 <style scoped>
 .form-area {
-  height: 110px;
-  width: 400px;
+  height: 150px;
+  width: 500px;
   margin-top: 20px;
   display: grid;
   grid-template-rows: repeat(4, auto);
   grid-template-columns: 130px 1fr;
-  row-gap: 3px;
+  row-gap: 20px;
+}
+
+thead {
+  text-align: left;
+}
+
+thead,
+tbody {
+  border-bottom: 3px solid black;
+}
+
+.th-name {
+  width: 300px;
+}
+
+.th-code {
+  width: 130px;
+}
+
+.th-time {
+  width: 130px;
 }
 </style>

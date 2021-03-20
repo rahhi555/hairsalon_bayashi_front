@@ -17,6 +17,9 @@ input {
   padding: 3px 0 3px 3px;
 }
 
+input:hover {
+  cursor: pointer;
+}
 
 .material-icons:hover {
   cursor: pointer;

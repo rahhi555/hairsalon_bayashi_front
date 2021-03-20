@@ -35,4 +35,15 @@
     created_at?: Date;
     updated_at?: Date;
   }
+
+  export interface Price {
+    price_id?: number;
+    price: number;
+    rank_id?: number;
+    rank_name: string;
+    menu_id?: number;
+    menu_name: string;
+    created_at?: Date;
+    updated_at?: Date;
+  }
  }

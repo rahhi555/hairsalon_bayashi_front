@@ -47,3 +47,22 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+thead,
+tbody {
+  border-bottom: 3px solid black;
+}
+
+thead {
+  text-align: left;
+}
+
+th {
+  width: 200px;
+}
+
+tr {
+  height: 40px;
+}
+</style>
