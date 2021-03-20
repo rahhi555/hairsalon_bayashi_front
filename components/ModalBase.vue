@@ -26,7 +26,7 @@
   z-index: 10;
   height: 500px;
   width: 400px;
-  background-color: rgba(238, 252, 253, 0.952);
+  background-color: rgb(238, 252, 253);
   position: absolute;
   top: 0;
   right: 0;
