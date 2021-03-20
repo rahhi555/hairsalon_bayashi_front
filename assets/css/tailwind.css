@@ -17,8 +17,17 @@ input {
   padding: 3px 0 3px 3px;
 }
 
-input:hover {
-  cursor: pointer;
+input[type="submit"] {
+  border: 1px solid black;
+  padding: 3px 10px;
+  border-radius: 10px;
+  box-shadow: 0 2px 1px black;
+  outline: none;
+}
+
+input[type="submit"]:active {
+  box-shadow: none;
+  transform: translate(0, 2px);
 }
 
 .material-icons:hover {
