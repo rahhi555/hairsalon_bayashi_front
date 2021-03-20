@@ -67,18 +67,29 @@
           placeholder="肩書"
         />
 
-        <label for="rank" class="label mt-3">ランク</label>
-        <select
-          id="rank"
-          v-model="newStylist.rank_id"
-          class="nonSubmit"
-          style="margin-top: 5px"
+        <ValidationProvider
+          v-slot="{ errors }"
+          rules="required"
+          name="ランク"
+          class="mt-3"
         >
-          <option value="null" selected>なし</option>
-          <option v-for="rank in ranks" :key="rank.id" :value="rank.id">
-            {{ rank.name }}
-          </option>
-        </select>
+          <label for="rank" class="label mt-3">ランク</label>
+          <select
+            id="rank"
+            v-model="newStylist.rank_id"
+            class="nonSubmit"
+            style="margin-top: 5px"
+            required
+          >
+            <option v-for="rank in ranks" :key="rank.id" :value="rank.id">
+              {{ rank.name }}
+            </option>
+          </select>
+
+          <p v-show="errors.length" class="danger">
+            {{ errors[0] }}
+          </p>
+        </ValidationProvider>
 
         <ValidationProvider
           v-slot="{ errors }"

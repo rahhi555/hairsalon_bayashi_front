@@ -78,8 +78,9 @@ export const actions = {
       admin: token.claims.admin,
     }
     const cookies = new Cookie()
-    // access_tokenというキーでトークンをクッキーストレージにセット
-    cookies.set('access_token', token)
+    // access_tokenというキーでトークンをクッキーストレージにセット。
+    // また、pathを指定しないとディレクトリ構造によっては異なるパスで二重に作成されるので注意
+    cookies.set('access_token', token, { path: '/' })
     await dispatch('setUSER', userInfo)
     // railsのstylistsテーブルかcustomersテーブルかをadminで判断する
     const tablename = userInfo.admin ? 'stylists' : 'customers'
@@ -93,7 +94,8 @@ export const actions = {
   logout({ commit }) {
     console.log('[STORE ACTIONS] - logout')
     const cookies = new Cookie()
-    cookies.remove('access_token')
+    // pathを指定しないとクッキーを消せない場合があった
+    cookies.remove('access_token', { path: '/' })
     commit('setUser', {})
     commit('setLoggedInRailsData', {})
   },
