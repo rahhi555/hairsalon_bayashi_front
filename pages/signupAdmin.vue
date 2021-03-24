@@ -207,6 +207,7 @@ export default defineComponent({
     const router = useRouter()
     const store = useStore()
     const signup = () => {
+      window.$nuxt.$loading.start()
       firebase
         .auth()
         .createUserWithEmailAndPassword(newStylist.mail, password.value)
@@ -221,6 +222,12 @@ export default defineComponent({
               store.dispatch('modules/user/login')
             })
             .then(() => {
+              store.dispatch('displayFlash', {
+                status: 'success',
+                message: 'スタイリストの登録が完了しました',
+                time: 5000,
+              })
+              window.$nuxt.$loading.finish()
               router.push('/')
             })
         })
@@ -237,6 +244,7 @@ export default defineComponent({
                 return '予期せぬエラーが発生しました。'
             }
           })(e.code)
+          window.$nuxt.$loading.finish()
         })
     }
 
@@ -304,6 +312,16 @@ input[type='submit'] {
   color: white;
   font-size: 20px;
   font-weight: bold;
+  animation: 2s disabled;
+}
+
+@keyframes disabled {
+  from {
+    background-color: gray;
+  }
+  to {
+    background-color: gray;
+  }
 }
 
 input[disabled='disabled'] {

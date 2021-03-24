@@ -133,6 +133,7 @@ export default defineComponent({
     const router = useRouter()
     const store = useStore()
     const signup = () => {
+      window.$nuxt.$loading.start()
       firebase
         .auth()
         .createUserWithEmailAndPassword(email.value, password.value)
@@ -151,6 +152,11 @@ export default defineComponent({
               store.dispatch('modules/user/login')
             })
             .then(() => {
+              store.dispatch('displayFlash', {
+                status: 'success',
+                message: 'ユーザー登録が完了しました',
+              })
+              window.$nuxt.$loading.finish()
               router.push('/')
             })
         })
@@ -165,6 +171,7 @@ export default defineComponent({
                 return 'メールアドレスとパスワードをご確認ください'
             }
           })(e.code)
+          window.$nuxt.$loading.finish()
         })
     }
     return {
@@ -221,6 +228,16 @@ input[type='submit'] {
   color: white;
   font-size: 20px;
   font-weight: bold;
+  animation: 2s disabled;
+}
+
+@keyframes disabled {
+  from {
+    background-color: gray;
+  }
+  to {
+    background-color: gray;
+  }
 }
 
 input[disabled='disabled'] {

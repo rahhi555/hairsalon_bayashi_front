@@ -66,18 +66,17 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const login = () => {
+      window.$nuxt.$loading.start()
       firebase
         .auth()
         .signInWithEmailAndPassword(email.value, password.value)
         .then(() => {
           store.dispatch('modules/user/login')
-          store.commit('setFlash', {
+          store.dispatch('displayFlash', {
             status: 'success',
-            message: 'ログインに成功しました！',
+            message: 'ログインしました',
           })
-          setTimeout(() => {
-            store.commit('setFlash', {})
-          }, 5000)
+          window.$nuxt.$loading.finish()
           router.push('/')
         })
         .catch((e) => {
@@ -93,6 +92,7 @@ export default defineComponent({
                 return '無効なパスワードです。'
             }
           })(e.code)
+          window.$nuxt.$loading.finish()
         })
     }
     return { email, password, error, login }
@@ -137,10 +137,21 @@ input[type='submit'] {
   border-radius: 50px;
   width: 200px;
   height: 50px;
-  background-color: #ed5294;
   color: white;
   font-size: 20px;
   font-weight: bold;
+  background-color: #ed5294;
+  /* 画面の表示時にピンク色がちらついてしまうのでアニメーションで隠蔽する */
+  animation: 2s disabled;
+}
+
+@keyframes disabled {
+  from {
+    background-color: gray;
+  }
+  to {
+    background-color: gray;
+  }
 }
 
 input[disabled='disabled'] {

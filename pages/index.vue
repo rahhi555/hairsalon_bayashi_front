@@ -19,10 +19,12 @@ import firebase from '@/plugins/firebase'
 export default defineComponent({
   setup() {
     const token = () => {
+      window.$nuxt.$loading.start()
       firebase
         .auth()
         .currentUser?.getIdTokenResult(true)
         .then((res) => console.log(res))
+        .then(() => window.$nuxt.$loading.finish())
         .catch((e) => console.error(e))
     }
 
