@@ -2,12 +2,6 @@
   <div>
     <nav>
       <NuxtLink
-        v-if="$store.getters['modules/user/isAdminAuthenticated']"
-        to=""
-        :class="{ selectBar: $route.name == '' }"
-        >Admin</NuxtLink
-      >
-      <NuxtLink
         to="/admin/customers"
         :class="{ selectBar: $route.name == 'admin-customers' }"
         >お客様一覧</NuxtLink

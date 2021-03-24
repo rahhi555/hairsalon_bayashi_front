@@ -68,7 +68,7 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    transpile: ['vee-validate/dist/rules'],
+    transpile: ['vee-validate/dist/rules', /@fullcalendar.*/],
     filenames: {
       app: ({ isDev }) => (isDev ? '[name].[hash].js' : '[chunkhash].js'),
       chunk: ({ isDev }) => (isDev ? '[name].[hash].js' : '[chunkhash].js'),
@@ -82,5 +82,9 @@ export default {
       baseURL: process.env.BASE_URL || 'http://web:3000',
       browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost:3000',
     },
+  },
+  loading: {
+    color: '#f8bd4f',
+    height: '5px',
   },
 }

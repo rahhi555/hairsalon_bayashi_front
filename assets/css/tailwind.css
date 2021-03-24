@@ -30,6 +30,10 @@ input[type="submit"]:active {
   transform: translate(0, 2px);
 }
 
+input[type="submit"]:hover {
+  cursor: pointer;
+}
+
 .material-icons:hover {
   cursor: pointer;
   color: gray;

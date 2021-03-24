@@ -67,23 +67,23 @@ export default defineComponent({
     const store = useStore()
     const router = useRouter()
     const logout = () => {
+      window.$nuxt.$loading.start()
       firebase
         .auth()
         .signOut()
         .then(
           () => {
             store.dispatch('modules/user/logout')
-            store.commit('setFlash', {
+            store.dispatch('displayFlash', {
               status: 'comeout',
               message: 'ログアウトしました',
             })
-            setTimeout(() => {
-              store.commit('setFlash', {})
-            }, 5000)
+            window.$nuxt.$loading.finish()
             router.push('/login')
           },
           (error) => {
             console.log(error)
+            window.$nuxt.$loading.finish()
           }
         )
     }

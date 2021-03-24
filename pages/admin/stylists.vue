@@ -1,15 +1,15 @@
 <template>
   <div>
     <h1>スタイリスト一覧</h1>
-    <table>
+    <table class="w-full">
       <thead>
         <tr>
           <th class="w-2/12">名前</th>
           <th class="w-2/12">メール</th>
-          <th class="w-2/12">電話</th>
-          <th class="w-1/12">性別</th>
+          <th class="w-1/12">電話</th>
+          <th class="w-1/12 text-center">性別</th>
           <th class="w-1/12">入社日</th>
-          <th class="w-2/12">肩書</th>
+          <th class="w-3/12">肩書</th>
           <th class="w-1/12">ランク</th>
           <th class="w-1/12"></th>
         </tr>
@@ -19,11 +19,11 @@
           <td>{{ stylist.name }}</td>
           <td>{{ stylist.mail }}</td>
           <td>{{ stylist.tel }}</td>
-          <td>{{ stylist.is_male ? '男' : '女' }}</td>
+          <td class="text-center">{{ stylist.is_male ? '男' : '女' }}</td>
           <td>{{ stylist.hire_on }}</td>
           <!-- 本人のみ肩書とランクを変更できる -->
           <td v-if="stylist.uid === currentStylist.uid">
-            <input v-model="editStylist.nickname" type="text" />
+            <input v-model="editStylist.nickname" type="text" class="w-11/12" />
           </td>
           <td v-else>{{ stylist.nickname }}</td>
           <td v-if="stylist.uid === currentStylist.uid">
@@ -42,7 +42,6 @@
         </tr>
       </tbody>
     </table>
-    {{ editStylist }}
   </div>
 </template>
 
