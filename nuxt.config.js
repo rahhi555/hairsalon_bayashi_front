@@ -79,7 +79,7 @@ export default {
   },
   publicRuntimeConfig: {
     axios: {
-      baseURL: process.env.BASE_URL || 'http://web:3000',
+      baseURL: process.env.BASE_URL || 'http://host.docker.internal:3000',
       browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost:3000',
     },
   },

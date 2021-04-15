@@ -3,9 +3,9 @@
   "version": "1.0.0",
   "private": true,
   "scripts": {
-    "dev": "nuxt-ts --hostname '0.0.0.0' --port 8080",
+    "dev": "nuxt-ts --hostname '0.0.0.0' --port 80",
     "build": "nuxt-ts build",
-    "start": "nuxt-ts start",
+    "start": "nuxt-ts start --hostname '0.0.0.0' --port 80",
     "generate": "nuxt-ts generate",
     "lint:js": "eslint --ext \".js,.vue\" --ignore-path .gitignore .",
     "lint": "yarn lint:js",
