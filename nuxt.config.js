@@ -42,14 +42,8 @@ export default {
     '@nuxtjs/axios',
     // https://go.nuxtjs.dev/pwa
     '@nuxtjs/pwa',
-    'nuxt-basic-auth-module',
     '@nuxtjs/dayjs',
   ],
-  basic: {
-    name: 'administrator',
-    pass: 'administrator',
-    match: /signupAdmin/,
-  },
   dayjs: {
     locales: ['ja'],
     defaultLocale: 'ja',
