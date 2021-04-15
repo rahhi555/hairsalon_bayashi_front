@@ -3,7 +3,7 @@ import firebaseAdmin from 'firebase-admin'
 
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert('/app/server/utils/key.json')
+    credential: firebaseAdmin.credential.cert('/app/hairsalon_bayashi_front/server/utils/key.json')
   })
 }
 

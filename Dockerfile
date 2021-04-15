@@ -9,3 +9,5 @@ WORKDIR $APP_HOME
 RUN apk update
 COPY pacage.json .
 RUN npm install
+RUN npm run build
+RUN npm run dev
