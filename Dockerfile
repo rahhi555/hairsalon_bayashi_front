@@ -8,6 +8,7 @@ WORKDIR $APP_HOME
 
 RUN apk update
 COPY . $APP_HOME
+RUN chmod +x $APP_HOME/entrypoint.sh
 RUN npm install
 RUN npm run build
-CMD ["npm","run","start"]
+ENTRYPOINT ["entrypoint.sh"]
