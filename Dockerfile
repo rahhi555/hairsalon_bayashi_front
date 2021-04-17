@@ -11,4 +11,4 @@ COPY . $APP_HOME
 RUN chmod +x $APP_HOME/entrypoint.sh
 RUN npm install
 RUN npm run build
-ENTRYPOINT ["entrypoint.sh"]
+ENTRYPOINT ["/app/entrypoint.sh"]
