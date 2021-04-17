@@ -7,7 +7,7 @@ RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 
 RUN apk update
-COPY pacage.json .
+COPY . $APP_HOME
 RUN npm install
 RUN npm run build
-RUN npm run dev
+CMD ["npm","run","start"]
