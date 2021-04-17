@@ -78,6 +78,6 @@ jobs:
       with:
 #         task-definition: ${{ steps.task-def.outputs.task-definition }}
         task-definition: task-definition.json
-        service: sample-app-service
+        service: hair_salon_bayashi_service
         cluster: hair_salon_bayashi
         wait-for-service-stability: true
