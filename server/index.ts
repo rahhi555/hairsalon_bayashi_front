@@ -1,9 +1,12 @@
 import { Request, Response } from 'express'
 import firebaseAdmin from 'firebase-admin'
 
+
+const admin_key: object = JSON.parse(process.env.FIREBASE_ADMIN_KEY!)
+
 if (!firebaseAdmin.apps.length) {
   firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert('/app/hairsalon_bayashi_front/server/utils/key.json')
+    credential: firebaseAdmin.credential.cert(admin_key)
   })
 }
 

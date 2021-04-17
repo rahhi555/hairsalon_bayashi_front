@@ -214,7 +214,8 @@ export default defineComponent({
         .then(async (res) => {
           newStylist.uid = res?.user?.uid
           await $axios
-            .patch('//localhost:8080/server/changeAdmin/' + newStylist.uid)
+            // //をつけるとbaseURLを無視し、localhostの80ポートへリクエストされる
+            .patch('//server/changeAdmin/' + newStylist.uid)
             .then((res) => console.log(res))
           $axios
             .post('/api/v1/stylists', { stylist: newStylist })
