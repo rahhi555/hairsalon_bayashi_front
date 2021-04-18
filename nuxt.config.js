@@ -75,6 +75,18 @@ export default {
     axios: {
       baseURL: process.env.BASE_URL || 'http://host.docker.internal:3000',
       browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost:3000',
+      API_KEY: process.env.API_KEY,
+      AUTH_DOMAIN: process.env.AUTH_DOMAIN,
+      DATABASE_URL: process.env.DATABASE_URL,
+      PROJECT_ID: process.env.PROJECT_ID,
+      STORAGE_BUCKET: process.env.STORAGE_BUCKET,
+      MESSAGE_SENDER_ID: process.env.MESSAGE_SENDER_ID,
+      APP_ID: process.env.APP_ID,
+      MEASUREMENT_ID: process.env.MEASUREMENT_ID,
+      FIREBASE_TOKEN: process.env.FIREBASE_TOKEN,
+      FIREBASE_ADMIN_PROJECT_ID: process.env.FIREBASE_ADMIN_PROJECT_ID,
+      FIREBASE_ADMIN_CLIENT_EMAIL: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+      FIREBASE_ADMIN_PRIVATE_KEY: process.env.FIREBASE_ADMIN_PRIVATE_KEY,
     },
   },
   loading: {
