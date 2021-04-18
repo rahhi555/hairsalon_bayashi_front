@@ -3,7 +3,6 @@ import firebaseAdmin from 'firebase-admin'
 
 
 if (!firebaseAdmin.apps.length) {
-  console.log(process.env)
   firebaseAdmin.initializeApp({
     credential: firebaseAdmin.credential.cert({
       projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
