@@ -13,21 +13,16 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useContext } from '@nuxtjs/composition-api'
-import firebase from '@/plugins/firebase'
+import { defineComponent, useContext, useAsync } from '@nuxtjs/composition-api'
 
 export default defineComponent({
   setup() {
+    useAsync(() => {
+      console.log('env:', process.env)
+    })
     const token = () => {
-      window.$nuxt.$loading.start()
-      firebase
-        .auth()
-        .currentUser?.getIdTokenResult(true)
-        .then((res) => console.log(res))
-        .then(() => window.$nuxt.$loading.finish())
-        .catch((e) => console.error(e))
+      console.log(process.env.API_KEY)
     }
-
     const { $axios } = useContext()
     const test = () => {
       $axios
@@ -35,6 +30,7 @@ export default defineComponent({
         .then((res) => console.log(res))
         .catch((e) => console.log('error!', e))
     }
+
     return { test, token }
   },
 })
