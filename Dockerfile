@@ -7,5 +7,8 @@ RUN mkdir -p $APP_HOME
 WORKDIR $APP_HOME
 
 RUN apk update
-COPY pacage.json .
+COPY . $APP_HOME
+RUN chmod +x $APP_HOME/entrypoint.sh
 RUN npm install
+RUN npm run build
+ENTRYPOINT ["/app/entrypoint.sh"]
