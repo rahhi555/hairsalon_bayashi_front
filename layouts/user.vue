@@ -13,7 +13,7 @@
 import { defineComponent, ref, provide } from '@nuxtjs/composition-api'
 
 export default defineComponent({
-  // defalutとの違いはミドルウェアがあるか否かのみ。cookieとvuexを監視して、uid等がなければlogin.vueに飛ばされる
+  // cookieとvuexを監視して、uid等がなければlogin.vueに飛ばされる
   // また、ログインしなければ閲覧禁止のpageはすべてlayout:'protected',を指定する。
   // login,signupでログインした直後のpageをlayout:protectedにしたらページ推移しないっぽいので、
   // そのページはlayoutを指定しないこと(その場合default.vue)
