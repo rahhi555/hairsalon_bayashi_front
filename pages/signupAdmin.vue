@@ -184,7 +184,7 @@ import { Stylist } from 'interface'
 export default defineComponent({
   middleware: ['handle-login-route'],
   setup() {
-    const { $axios } = useContext()
+    const { $axios, $config } = useContext()
     const ranks = useAsync(() =>
       $axios.get('/api/v1/ranks').then((response) => {
         return response.data
@@ -214,9 +214,9 @@ export default defineComponent({
         .then(async (res) => {
           newStylist.uid = res?.user?.uid
           await $axios
-            // //をつけるとbaseURLを無視する
             .patch(
-              '//www.hirabayashi.work:443/server/changeAdmin/' + newStylist.uid
+              `${$config.serverMiddlewareUrl}/server/changeAdmin/` +
+                newStylist.uid
             )
             .then((res) => console.log(res))
           $axios
