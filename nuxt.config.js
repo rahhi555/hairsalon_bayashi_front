@@ -76,6 +76,8 @@ export default {
       baseURL: process.env.BASE_URL || 'http://host.docker.internal:3000',
       browserBaseURL: process.env.BROWSER_BASE_URL || 'http://localhost:3000',
     },
+    serverMiddlewareUrl:
+      process.env.SERVER_MIDDLEWARE_URL || 'http://localhost:8080',
   },
   loading: {
     color: '#f8bd4f',
