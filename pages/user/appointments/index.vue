@@ -2,11 +2,11 @@
   <div>
     <table>
       <thead>
-        <tr>
-          <th>メニュー</th>
-          <th>所要時間</th>
-          <th>料金</th>
-          <th></th>
+        <tr class="w-full">
+          <th class="text-left w-7/12" style="width: 300px">メニュー</th>
+          <th class="text-left w-2/12">所要時間</th>
+          <th class="text-left w-2/12">料金</th>
+          <th class="text-left w-1/12"></th>
         </tr>
       </thead>
       <tbody>
@@ -74,3 +74,17 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+table {
+  margin: 0px auto;
+  border-top: 2px solid black;
+  border-bottom: 2px solid black;
+}
+thead {
+  border-bottom: 1px solid black;
+}
+tr {
+  height: 30px;
+}
+</style>
