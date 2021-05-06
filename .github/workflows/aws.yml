@@ -1,8 +1,8 @@
-# masterブランチに直接プッシュするかpull requestをしてmargeした時に動作させる
 on:
-  push:
+  pull_request:
     branches:
       - master
+    types: [closed]
 
 name: Deploy to Amazon ECS FRONT
 
@@ -11,7 +11,8 @@ jobs:
     name: Deploy
     runs-on: ubuntu-latest
     environment: production
-
+    if: github.event.pull_request.merged == true
+    
       steps:
       - name: test
         run: |
