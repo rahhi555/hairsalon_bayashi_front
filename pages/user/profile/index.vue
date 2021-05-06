@@ -29,11 +29,13 @@
 <script lang="ts">
 import {
   defineComponent,
-  useAsync,
+  useFetch,
   useContext,
   useStore,
   ref,
 } from '@nuxtjs/composition-api'
+
+import { Customer } from 'interface'
 
 export default defineComponent({
   layout: 'user',
@@ -43,9 +45,17 @@ export default defineComponent({
     const { $axios } = useContext()
 
     // ログイン中のユーザー情報をstoreから取得
-    const current_user = useAsync(
-      () => store.getters['modules/user/loggedInRailsData']
-    )
+    const current_user = ref<Customer>({
+      id: 0,
+      name: 'default',
+      tel: 'default',
+      mail: 'default',
+      image_url: 'default',
+    })
+    const { fetch } = useFetch(async () => {
+      current_user.value = await store.getters['modules/user/loggedInRailsData']
+    })
+    fetch()
 
     // railsに画像アップロード用の変数
     const image = ref('')

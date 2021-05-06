@@ -45,11 +45,9 @@ export default defineComponent({
   layout: 'user',
   setup(_, { root }) {
     const { $axios, $dayjs } = useContext()
-    const baseMenus = useAsync(() =>
-      $axios.$get<BaseMenu[]>('api/v1/prices/base').then((res) => {
-        return res
-      })
-    )
+    const baseMenus = useAsync(() => {
+      return $axios.$get<BaseMenu[]>('api/v1/prices/base')
+    })
 
     const formatTime = (time: string): string => {
       const hour = $dayjs(time).format('H')

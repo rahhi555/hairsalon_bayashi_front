@@ -10,6 +10,7 @@ if (!firebaseAdmin.apps.length) {
       privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n")
     })
   })
+  console.warn(process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"))
 }
 
 const express = require('express')
