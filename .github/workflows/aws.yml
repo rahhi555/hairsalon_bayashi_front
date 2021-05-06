@@ -12,13 +12,13 @@ jobs:
     runs-on: ubuntu-latest
     environment: production
     if: github.event.pull_request.merged == true
-    
-      steps:
-      - name: test
-        run: |
-          echo "github.event.pull_request.title: ${{github.event.pull_request.title}}"
-          echo "github.event: ${{toJSON(github.event)}}"
-          echo "github.event.head_commit.message: ${{github.event.head_commit.message}}"
+
+    steps:
+    - name: test
+      run: |
+        echo "github.event.pull_request.title: ${{github.event.pull_request.title}}"
+        echo "github.event: ${{toJSON(github.event)}}"
+        echo "github.event.head_commit.message: ${{github.event.head_commit.message}}"
   #   steps:
   #   - name: Checkout
   #     uses: actions/checkout@v2
