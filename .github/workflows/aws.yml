@@ -13,6 +13,7 @@ jobs:
     environment: production
 
       steps:
+      - name: test
         run: |
           echo "github.event.pull_request.title: ${{github.event.pull_request.title}}"
           echo "github.event: ${{toJSON(github.event)}}"
