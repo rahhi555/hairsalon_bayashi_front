@@ -116,19 +116,6 @@ export default defineComponent({
     const passwordConfirm = ref<string>('')
     const error = ref<string | undefined>('')
 
-    // firebaseのstoreにログインしたユーザーを追加する
-    // const writeUserData = (
-    //   userId: string | undefined,
-    //   email: string | null | undefined
-    // ) => {
-    //   return firebase
-    //     .database()
-    //     .ref('users/' + userId)
-    //     .set({
-    //       email,
-    //     })
-    // }
-
     const { $axios } = useContext()
     const router = useRouter()
     const store = useStore()

@@ -1,6 +1,6 @@
 <template>
   <div class="loginErea">
-    <h1>ユーザーログイン</h1>
+    <h1>ログイン</h1>
     <ValidationObserver v-slot="{ invalid }">
       <form class="loginForm" @submit.prevent="login">
         <ValidationProvider

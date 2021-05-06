@@ -18,7 +18,7 @@ input {
   padding: 3px 0 3px 3px;
 }
 
-input[type="submit"] {
+input[type="submit"],button {
   border: 1px solid black;
   padding: 3px 10px;
   border-radius: 10px;
@@ -26,12 +26,12 @@ input[type="submit"] {
   outline: none;
 }
 
-input[type="submit"]:active {
+input[type="submit"]:active,button:active {
   box-shadow: none;
   transform: translate(0, 2px);
 }
 
-input[type="submit"]:hover {
+input[type="submit"]:hover,button:hover {
   cursor: pointer;
 }
 

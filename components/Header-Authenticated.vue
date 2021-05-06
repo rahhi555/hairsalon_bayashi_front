@@ -7,6 +7,11 @@
         class="appointments"
         >予約</NuxtLink
       >
+      <NuxtLink
+        to="/user/profile"
+        :class="{ selectBar: $route.name == 'user-profile' }"
+        >プロフィール</NuxtLink
+      >
     </nav>
   </div>
 </template>

@@ -6,13 +6,15 @@ import {
   extend,
 } from 'vee-validate'
 import ja from 'vee-validate/dist/locale/ja.json' // エラーメッセージの日本語化
-import { required, email, max, min } from 'vee-validate/dist/rules' // 使用するバリデーション
+import { required, email, max, min, size, image } from 'vee-validate/dist/rules' // 使用するバリデーション
 
 // デフォルトのバリデーション設定
 extend('required', required) // 必須項目
 extend('email', email) // メールアドレス
 extend('max', max) // 最大文字数
 extend('min', min) // 最小文字数
+extend('size', size) // ファイルサイズ
+extend('image', image) // 画像のみ
 extend('password', {
   // パスワード再入力との一致
   params: ['target'],

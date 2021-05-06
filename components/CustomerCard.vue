@@ -1,7 +1,7 @@
 <template>
   <article>
     <figure>
-      <img src="hogehoge" @error="noImage" />
+      <img :src="image_url" @error="noImage" />
     </figure>
     <div class="relative">
       <span class="absolute right-0">
@@ -41,6 +41,7 @@ export default defineComponent({
     name: String,
     tel: String,
     mail: String,
+    image_url: String,
   },
   setup(_, context) {
     const noImage = (element: any): void => {
