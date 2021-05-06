@@ -10,6 +10,7 @@
           :name="customer.name"
           :tel="customer.tel"
           :mail="customer.mail"
+          :image_url="customer.image_url"
           @deleteCustomerEmit="deleteCustomer(customer.id, customer.uid)"
         />
       </div>
@@ -37,7 +38,12 @@ export default defineComponent({
       })
     )
 
-    const newCustomer = ref<Customer>({ name: '', tel: '', mail: '' })
+    const newCustomer = ref<Customer>({
+      name: '',
+      tel: '',
+      mail: '',
+      image_url: '',
+    })
     const inputForm = ref<HTMLInputElement>()
 
     const deleteCustomer = async (id: number, uid: string) => {

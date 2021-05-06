@@ -15,10 +15,10 @@
     >
       <table>
         <thead>
-          <th>スタイリスト</th>
-          <th>ランク</th>
-          <th>指名料</th>
-          <th></th>
+          <th class="w-5/12">スタイリスト</th>
+          <th class="w-2/12">ランク</th>
+          <th class="w-3/12">指名料</th>
+          <th class="w-2/12"></th>
         </thead>
         <tbody>
           <tr
@@ -38,7 +38,7 @@
       v-else-if="basePrice !== 'default' && displayController.isStylistSelected"
     >
       <table>
-        <tbody class="stylist-select-table">
+        <tbody class="w-full">
           <tr>
             <th>スタイリスト：</th>
             <td>{{ selectedStylist.stylist_name }}</td>
@@ -52,18 +52,22 @@
             <td>{{ selectedStylist.price }}</td>
           </tr>
         </tbody>
-        <label>
-          <textarea
-            v-model="remark"
-            placeholder="要望等がありましたらご記入おねがいします。"
-          />
-        </label>
       </table>
-      こちらの内容で注文します。よろしいですか？
-      <button @click="addAppointment">はい</button>
-      <button @click="displayController.isStylistSelected = false">
-        いいえ
-      </button>
+      <label>
+        <textarea
+          v-model="remark"
+          placeholder="要望等がありましたらご記入おねがいします。"
+        />
+      </label>
+      <p class="block mx-auto w-1/2 mt-10 mb-2 text-center">
+        こちらの内容で注文します。よろしいですか？
+      </p>
+      <div class="appointment-buttons flex justify-around">
+        <button @click="addAppointment">はい</button>
+        <button @click="displayController.isStylistSelected = false">
+          いいえ
+        </button>
+      </div>
     </div>
 
     <div v-else>
@@ -192,7 +196,7 @@ export default defineComponent({
             status: 'success',
             message: '予約の登録が完了しました。',
           })
-          router.push('/user/')
+          router.push('/')
         })
         .catch((e) => {
           window.$nuxt.$loading.finish()
@@ -215,11 +219,18 @@ export default defineComponent({
 </script>
 
 <style scoped>
-.stylist-select-table tr th {
-  text-align: right;
+table,
+textarea,
+.appointment-buttons {
+  width: 50%;
+  margin: 0 auto;
 }
-
-button:hover {
-  color: gray;
+textarea {
+  display: block;
+}
+th,
+td {
+  text-align: left;
+  padding: 5px 0;
 }
 </style>
