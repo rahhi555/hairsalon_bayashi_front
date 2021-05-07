@@ -3,14 +3,19 @@ import firebaseAdmin from 'firebase-admin'
 
 
 if (!firebaseAdmin.apps.length) {
-  firebaseAdmin.initializeApp({
-    credential: firebaseAdmin.credential.cert({
-      projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
-      clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
-      privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n")
+  try {
+    firebaseAdmin.initializeApp({
+      credential: firebaseAdmin.credential.cert({
+        projectId: process.env.FIREBASE_ADMIN_PROJECT_ID,
+        clientEmail: process.env.FIREBASE_ADMIN_CLIENT_EMAIL,
+        privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n")
+      })
     })
-  })
-  console.warn(process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n"))
+    console.log("firebase Admin initialize success!!")  
+  } catch (error) {
+    console.log("firebase Admin initialize error...")
+    console.error(error)
+  }
 }
 
 const express = require('express')
