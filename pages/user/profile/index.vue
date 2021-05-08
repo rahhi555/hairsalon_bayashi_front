@@ -1,28 +1,39 @@
 <template>
   <div>
-    <ValidationProvider
-      ref="provider"
-      v-slot="{ validate, errors }"
-      rules="size:1000|image"
-      name="ファイルサイズ"
-    >
-      <input
-        type="file"
-        accept="image/*"
-        @change="
-          setImage($event)
-          validate($event)
-        "
-      />
-      <p v-show="errors.length" class="text-red-600 text-sm">
-        {{ errors[0] }}
-      </p>
-    </ValidationProvider>
-    <button @click="uploadImage">button</button>
-    <img :src="preview_url" />
-    <div v-if="!!current_user.image_url">
-      <img :src="current_user.image_url" />
-    </div>
+    <ValidationObserver v-slot="{ invalid }">
+      <ValidationProvider
+        ref="provider"
+        v-slot="{ validate, errors }"
+        rules="size:2000|image|required"
+        name="ファイル"
+      >
+        <input
+          type="file"
+          accept="image/*"
+          @change="
+            setImage($event)
+            validate($event)
+          "
+        />
+        <p v-show="errors.length" class="text-red-600 text-sm">
+          {{ errors[0] }}
+        </p>
+      </ValidationProvider>
+      <button :disabled="invalid" @click="uploadImage">
+        プロフィール画像変更
+      </button>
+
+      <div class="grid">
+        <section>
+          <p>現在のプロフィール画像</p>
+          <img v-if="!!current_user.image_url" :src="current_user.image_url" />
+        </section>
+        <section>
+          <p>変更後のプロフィール画像</p>
+          <img :src="preview_url" />
+        </section>
+      </div>
+    </ValidationObserver>
   </div>
 </template>
 
@@ -72,6 +83,10 @@ export default defineComponent({
 
     // 画像をAPIに送信
     const uploadImage = () => {
+      if (!image.value) {
+        alert('ファイルが選択されていません。')
+        return
+      }
       // textなどの単純なデータと違い画像などのバイナリーファイルは
       // FormDataを使わなければサーバーに送ることができない。
       const formData = new FormData()
@@ -96,3 +111,22 @@ export default defineComponent({
   },
 })
 </script>
+
+<style scoped>
+.grid {
+  display: grid;
+  margin-top: 20px;
+  gap: 26px;
+  grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+}
+img {
+  margin: 0 auto;
+}
+button {
+  background-color: #ed5294;
+  color: white;
+}
+button[disabled='disabled'] {
+  background-color: gray;
+}
+</style>

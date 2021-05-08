@@ -63,15 +63,6 @@ app.get('/hello', (req: Request, res:Response) => {
   res.send("HELLO!!")
 })
 
-app.get('/test/:str', (req: Request, res:Response) => {
-  const sendStr = "you params is ..." + req.params.str
-  res.send(sendStr)
-})
-
-app.get('/env', (req: Request, res:Response) => {
-  res.send(process.env)
-})
-
 module.exports = {
   path:'/server/',
   handler: app
