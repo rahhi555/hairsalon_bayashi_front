@@ -68,6 +68,10 @@ app.get('/test/:str', (req: Request, res:Response) => {
   res.send(sendStr)
 })
 
+app.get('/env', (req: Request, res:Response) => {
+  res.send(process.env)
+})
+
 module.exports = {
   path:'/server/',
   handler: app
