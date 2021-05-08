@@ -4,6 +4,12 @@
   "containerDefinitions": [
     {
       "dnsSearchDomains": null,
+      "environmentFiles": [
+        {
+          "value": "arn:aws:s3:::rahhi555-private-terraform/hair_salon_bayashi_front/.env",
+          "type": "s3"
+        }
+      ],
       "logConfiguration": {
         "logDriver": "awslogs",
         "secretOptions": null,
