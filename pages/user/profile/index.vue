@@ -103,8 +103,20 @@ export default defineComponent({
         .then((res) => {
           current_user.value.image_url = res.image_url
           preview_url.value = ''
+          store.dispatch('displayFlash', {
+            status: 'success',
+            message: '画像を変更しました。',
+          })
         })
-        .catch((res) => console.error('error...:', res))
+        .catch((error) => {
+          console.error('error...:', error.response)
+          // エラーメッセージの最初のキー取得
+          const firstErrorKey = Object.keys(error.response.data)[0]
+          store.dispatch('displayFlash', {
+            status: 'alert',
+            message: error.response.data[firstErrorKey][0],
+          })
+        })
     }
 
     return { current_user, setImage, uploadImage, preview_url }

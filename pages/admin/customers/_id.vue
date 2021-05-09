@@ -17,7 +17,12 @@
 </template>
 
 <script lang="ts">
-import { defineComponent, useAsync, useContext } from '@nuxtjs/composition-api'
+import {
+  defineComponent,
+  useAsync,
+  useContext,
+  useStore,
+} from '@nuxtjs/composition-api'
 import { Customer } from 'interface'
 
 export default defineComponent({
@@ -27,6 +32,7 @@ export default defineComponent({
   },
   setup() {
     const { $axios, params, redirect } = useContext()
+    const store = useStore()
 
     const customer = useAsync<Customer>(() =>
       $axios
@@ -38,6 +44,9 @@ export default defineComponent({
     )
 
     const updateCustomer = () => {
+      if (!confirm('本当に変更してもよろしいですか？')) {
+        return
+      }
       $axios
         .patch(`/api/v1/customers/${params.value.id}`, {
           customer: {
@@ -46,8 +55,21 @@ export default defineComponent({
             mail: customer.value?.mail,
           },
         })
-        .then(() => {
-          return redirect('/admin/customers/index')
+        .then((res) => {
+          customer.value = res.data
+          store.dispatch('displayFlash', {
+            status: 'success',
+            message: '変更しました。',
+          })
+        })
+        .catch((error) => {
+          // エラーメッセージの最初のキー取得
+          const firstErrorKey = Object.keys(error.response.data)[0]
+          store.dispatch('displayFlash', {
+            status: 'alert',
+            message: error.response.data[firstErrorKey][0],
+          })
+          console.error('updateCustomer ERROR:', error.response)
         })
     }
     return { customer, updateCustomer }

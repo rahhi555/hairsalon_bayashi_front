@@ -24,13 +24,15 @@ import {
   ref,
   useAsync,
   useContext,
+  useStore,
 } from '@nuxtjs/composition-api'
 import { Customer } from 'interface'
 
 export default defineComponent({
   layout: 'admin',
   setup() {
-    const { $axios } = useContext()
+    const { $axios, $config } = useContext()
+    const store = useStore()
 
     const customers = useAsync(() =>
       $axios.get('/api/v1/customers').then((response) => {
@@ -47,16 +49,34 @@ export default defineComponent({
     const inputForm = ref<HTMLInputElement>()
 
     const deleteCustomer = async (id: number, uid: string) => {
-      await $axios
-        .delete(`//localhost:8080/server/user/delete/${uid}`)
-        .catch((e) => {
-          console.error('delete firebase use failed!! :', e)
+      if (!confirm('本当に削除してもよろしいですか？')) {
+        return
+      }
+
+      try {
+        window.$nuxt.$loading.start()
+        await $axios.delete(
+          `${$config.serverMiddlewareUrl}/server/user/delete/${uid}`
+        )
+        $axios.delete(`/api/v1/customers/${id}`).then(() => {
+          customers.value = customers.value.filter((customer: Customer) => {
+            return customer.id !== id
+          })
         })
-      $axios.delete(`/api/v1/customers/${id}`).then(() => {
-        customers.value = customers.value.filter((customer: Customer) => {
-          return customer.id !== id
+        store.dispatch('displayFlash', {
+          status: 'success',
+          message: 'ユーザー削除に成功しました',
         })
-      })
+      } catch (error) {
+        console.error('deleteCustomer ERROR!:', error)
+        store.dispatch('displayFlash', {
+          status: 'alert',
+          message: 'ユーザー削除に失敗しました',
+        })
+        return
+      } finally {
+        window.$nuxt.$loading.finish()
+      }
     }
 
     return { customers, newCustomer, deleteCustomer, inputForm }
