@@ -3,7 +3,7 @@
     <figure>
       <img :src="image_url" @error="noImage" />
     </figure>
-    <div class="relative">
+    <div class="relative card-body-wrapper">
       <span class="absolute right-0">
         <NuxtLink :to="`/admin/customers/${id}`"
           ><span class="material-icons">open_in_new</span></NuxtLink
@@ -76,12 +76,23 @@ img {
   width: 230px;
 }
 
-div {
+.card-body-wrapper {
   height: 120px;
   padding: 5px;
+  overflow: auto;
+  white-space: nowrap;
 }
 
 table {
   text-align: left;
+}
+
+.card-body-wrapper::-webkit-scrollbar {
+  width: 6px;
+  height: 6px;
+  background-color: #aaa;
+}
+.card-body-wrapper::-webkit-scrollbar-thumb {
+  background: black;
 }
 </style>
