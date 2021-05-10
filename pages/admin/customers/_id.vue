@@ -13,6 +13,7 @@
       >
       <input type="submit" value="変更" />
     </form>
+    <button @click="test">test</button>
   </div>
 </template>
 
@@ -24,6 +25,7 @@ import {
   useStore,
 } from '@nuxtjs/composition-api'
 import { Customer } from 'interface'
+import firebase from '@/plugins/firebase'
 
 export default defineComponent({
   layout: 'admin',
@@ -31,7 +33,7 @@ export default defineComponent({
     return /^\d+$/.test(params.id)
   },
   setup() {
-    const { $axios, params, redirect } = useContext()
+    const { $axios, params, redirect, $config } = useContext()
     const store = useStore()
 
     const customer = useAsync<Customer>(() =>
@@ -72,7 +74,19 @@ export default defineComponent({
           console.error('updateCustomer ERROR:', error.response)
         })
     }
-    return { customer, updateCustomer }
+    const test = () => {
+      firebase
+        .auth()
+        .currentUser?.getIdToken(true)
+        .then((res) => {
+          $axios.$patch(`${$config.serverMiddlewareUrl}/server/verifyIdToken`, {
+            idToken: res,
+          })
+        })
+        .then((res) => console.log(res))
+    }
+
+    return { customer, updateCustomer, test }
   },
 })
 </script>

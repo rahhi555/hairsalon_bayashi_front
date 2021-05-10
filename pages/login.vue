@@ -44,6 +44,10 @@
         />
       </form>
     </ValidationObserver>
+    <div class="text-center">
+      <button @click="easyUserLogin">ユーザーで簡単ログイン</button>
+      <button @click="easyStylistLogin">管理者で簡単ログイン</button>
+    </div>
   </div>
 </template>
 
@@ -95,7 +99,17 @@ export default defineComponent({
           window.$nuxt.$loading.finish()
         })
     }
-    return { email, password, error, login }
+    const easyUserLogin = () => {
+      email.value = 'pro_test1@example.com'
+      password.value = 'password'
+      login()
+    }
+    const easyStylistLogin = () => {
+      email.value = 'pro_stylist1@example.com'
+      password.value = 'stylist'
+      login()
+    }
+    return { email, password, error, login, easyUserLogin, easyStylistLogin }
   },
 })
 </script>
