@@ -11,7 +11,7 @@ if (!firebaseAdmin.apps.length) {
         privateKey: process.env.FIREBASE_ADMIN_PRIVATE_KEY?.replace(/\\n/g, "\n")
       })
     })
-    console.log("firebase Admin initialize success!!")  
+    console.log("firebase Admin initialize success!!")
   } catch (error) {
     console.log("firebase Admin initialize error...")
     console.error(error)
@@ -20,15 +20,17 @@ if (!firebaseAdmin.apps.length) {
 
 const express = require('express')
 const app = express()
+// リクエストボディをjson形式で解析する。これを宣言しておけば、req.bodyで送られてきたボディを取得できる。
+app.use(express.json())
 
-app.get('/listUsers',(req: Request, res:Response) => {
+app.get('/listUsers', (req: Request, res: Response) => {
   firebaseAdmin
     .auth()
     .listUsers()
-    .then((listUsersResult:any) => {
+    .then((listUsersResult: any) => {
       res.send(listUsersResult)
     })
-    .catch((error:any) => {
+    .catch((error: any) => {
       console.log('Error listing users:', error);
     });
 })
@@ -59,11 +61,24 @@ app.patch('/changeAdmin/:uid', (req: Request, res: Response) => {
     })
 })
 
-app.get('/hello', (req: Request, res:Response) => {
+app.get('/hello', (req: Request, res: Response) => {
   res.send("HELLO!!")
 })
 
+app.patch('/verifyIdToken', (req: Request, res: Response) => {
+  let decodedToken: firebaseAdmin.auth.DecodedIdToken | any = null
+  firebaseAdmin
+    .auth()
+    .verifyIdToken(req.body.idToken)
+    .then((result) => {
+      decodedToken = result
+    })
+    .catch((error) => {
+      res.send(error)
+    })
+})
+
 module.exports = {
-  path:'/server/',
+  path: '/server/',
   handler: app
 }
