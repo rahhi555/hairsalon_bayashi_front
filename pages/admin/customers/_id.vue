@@ -13,6 +13,7 @@
       >
       <input type="submit" value="変更" />
     </form>
+    <button @click="test" v-show="false">test</button>
   </div>
 </template>
 

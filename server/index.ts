@@ -66,12 +66,11 @@ app.get('/hello', (req: Request, res: Response) => {
 })
 
 app.patch('/verifyIdToken', (req: Request, res: Response) => {
-  let decodedToken: firebaseAdmin.auth.DecodedIdToken | any = null
   firebaseAdmin
     .auth()
     .verifyIdToken(req.body.idToken)
     .then((result) => {
-      decodedToken = result
+      res.send(result)
     })
     .catch((error) => {
       res.send(error)
